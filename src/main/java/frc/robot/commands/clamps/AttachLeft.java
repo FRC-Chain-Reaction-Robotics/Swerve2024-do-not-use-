@@ -6,11 +6,14 @@
 package frc.robot.commands.clamps;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Clamps;
 
 public class AttachLeft extends CommandBase {
   /** Creates a new AttachLeft. */
   public AttachLeft() {
+
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(Clamps);
   }
 
   // Called when the command is initially scheduled.

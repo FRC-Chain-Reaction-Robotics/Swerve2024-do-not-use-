@@ -27,4 +27,7 @@ public class Clamps extends SubsystemBase {
   public void engageLeft(double speed) {
     m_left.set(speed);
   }
+  public void engageRight(double speed) {
+    m_right.set(speed);
+  }
 }

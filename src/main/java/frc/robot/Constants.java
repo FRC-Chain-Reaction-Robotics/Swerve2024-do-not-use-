@@ -36,6 +36,9 @@ public class Constants {
     }
 
     public static final class Clamps {
+        public static final int kRightClampCanId = 13;
+
+        public static final int kLeftClampCanId = 12;
 
     }
 

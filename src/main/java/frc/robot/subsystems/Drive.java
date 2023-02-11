@@ -5,20 +5,30 @@
 
 package frc.robot.subsystems;
 
+import java.io.IOException;
+import java.util.Optional;
+
+import org.photonvision.EstimatedRobotPose;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Constants;
-import frc.robot.utils.NavX;
-import frc.robot.utils.SwerveModule;
+import frc.robot.lib.NavX;
+import frc.robot.lib.PhotonCameraWrapper;
+import frc.robot.lib.SwerveModule;
 
 public class Drive extends SubsystemBase {
   // Create SwerveModules
@@ -49,21 +59,36 @@ public class Drive extends SubsystemBase {
   // The gyro sensor
   private final NavX m_gyro = new NavX();
 
+  public PhotonCameraWrapper m_leftPhotonCamera;
+  public PhotonCameraWrapper m_rightPhotonCamera;
+
+  private final SwerveDrivePoseEstimator m_poseEstimator = 
+    new SwerveDrivePoseEstimator(
+      Constants.Drive.kDriveKinematics, 
+      Rotation2d.fromDegrees(m_gyro.getAngle()), 
+      new SwerveModulePosition[] {
+        m_frontLeft.getPosition(),
+        m_frontRight.getPosition(),
+        m_rearLeft.getPosition(),
+        m_rearRight.getPosition()}, 
+      new Pose2d());
+
   private final Field2d m_fieldSim = new Field2d();
 
-  // Odometry class for tracking robot pose
-  SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
-      Constants.Drive.kDriveKinematics,
-      Rotation2d.fromDegrees(m_gyro.getAngle()),
-      new SwerveModulePosition[] {
-          m_frontLeft.getPosition(),
-          m_frontRight.getPosition(),
-          m_rearLeft.getPosition(),
-          m_rearRight.getPosition()
-      });
-
-  /** Creates a new DriveSubsystem. */
   public Drive() {
+    m_leftPhotonCamera = new PhotonCameraWrapper(
+      Constants.Vision.kLeftCameraName,
+      Constants.Vision.kLeftRobotToCamera,
+      PoseStrategy.CLOSEST_TO_REFERENCE_POSE,
+      Constants.Vision.kAprilTagFieldLayout
+    );
+    m_rightPhotonCamera = new PhotonCameraWrapper(
+      Constants.Vision.kRightCameraName,
+      Constants.Vision.kRightRobotToCamera,
+      PoseStrategy.CLOSEST_TO_REFERENCE_POSE,
+      Constants.Vision.kAprilTagFieldLayout
+    );
+
     SmartDashboard.putData("Field", m_fieldSim);
     SmartDashboard.setDefaultNumber("P", Constants.SwerveModule.kDrivingP);
     SmartDashboard.setDefaultNumber("D", Constants.SwerveModule.kDrivingD);
@@ -71,6 +96,8 @@ public class Drive extends SubsystemBase {
 
   @Override
   public void periodic() {
+    updatePose();
+
     SmartDashboard.putNumber("Drive/Swerve/FrontLeft/SteeringRelativePosition", m_frontLeft.getSteeringRelativePosition());
     SmartDashboard.putNumber("Drive/Swerve/FrontLeft/SteeringAbsolutePosition", m_frontLeft.getSteeringAbsolutePosition());
     SmartDashboard.putNumber("Drive/Swerve/FrontRight/SteeringRelativePosition", m_frontRight.getSteeringRelativePosition());
@@ -83,20 +110,31 @@ public class Drive extends SubsystemBase {
     SmartDashboard.putNumber("Drive/NavX/Yaw", m_gyro.getYaw());
     SmartDashboard.putNumber("Front Left Relative Position", m_frontLeft.getDrivingRelativePosition());
     SmartDashboard.putNumber("Front Left Velocity", m_frontLeft.getDrivingVelocity());
-  
+  }
+   
+  public void updatePose() {
+    m_poseEstimator.update(
+      m_gyro.getRotation2d(), 
+      new SwerveModulePosition[] {
+        m_frontLeft.getPosition(),
+        m_frontRight.getPosition(),
+        m_rearLeft.getPosition(),
+        m_rearRight.getPosition()
+    });
 
-    // Update the odometry in the periodic block
-    m_odometry.update(
-        Rotation2d.fromDegrees(m_gyro.getAngle()),
-        new SwerveModulePosition[] {
-            m_frontLeft.getPosition(),
-            m_frontRight.getPosition(),
-            m_rearLeft.getPosition(),
-            m_rearRight.getPosition()
-        });
+    Optional<EstimatedRobotPose> leftCameraResult = m_leftPhotonCamera.getEstimatedGlobalPose(m_poseEstimator.getEstimatedPosition());
+    if (leftCameraResult.isPresent()) {
+      EstimatedRobotPose camPose = leftCameraResult.get();
+      m_poseEstimator.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
+    }
 
-    m_fieldSim.setRobotPose(m_odometry.getPoseMeters());
+    Optional<EstimatedRobotPose> rightCameraResult = m_rightPhotonCamera.getEstimatedGlobalPose(m_poseEstimator.getEstimatedPosition());
+    if (rightCameraResult.isPresent()) {
+      EstimatedRobotPose camPose = rightCameraResult.get();
+      m_poseEstimator.addVisionMeasurement(camPose.estimatedPose.toPose2d(), camPose.timestampSeconds);
+    }
 
+    m_fieldSim.setRobotPose(m_poseEstimator.getEstimatedPosition());
   }
 
   /**
@@ -105,7 +143,7 @@ public class Drive extends SubsystemBase {
    * @return The pose.
    */
   public Pose2d getPose() {
-    return m_odometry.getPoseMeters();
+    return m_poseEstimator.getEstimatedPosition();
   }
 
   /**
@@ -113,8 +151,8 @@ public class Drive extends SubsystemBase {
    *
    * @param pose The pose to which to set the odometry.
    */
-  public void resetOdometry(Pose2d pose) {
-    m_odometry.resetPosition(
+  public void resetPose(Pose2d pose) {
+    m_poseEstimator.resetPosition(
         Rotation2d.fromDegrees(m_gyro.getAngle()),
         new SwerveModulePosition[] {
             m_frontLeft.getPosition(),
@@ -123,8 +161,9 @@ public class Drive extends SubsystemBase {
             m_rearRight.getPosition()
         },
         pose);
+
+      m_fieldSim.setRobotPose(m_poseEstimator.getEstimatedPosition());
   }
-  
 
   /**
    * Method to drive the robot using joystick info.

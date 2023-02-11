@@ -5,16 +5,28 @@
 
 package frc.robot;
 
+import java.io.IOException;
+
 import com.revrobotics.CANSparkMax.IdleMode;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
 
 /** Add your docs here. */
 public class Constants {
-    public static final boolean kEnableAllTelemetry = true;
+
+    public static final class Controllers {
+        public static final int kDriverControllerPort = 0; 
+        public static final int kManipulatorControllerPort = 1; 
+        public static final double kDeadband = 0.1; 
+    }
 
     public static final class Arm {
         /**
@@ -185,7 +197,27 @@ public class Constants {
 
       }
 
-      public static final class VisionTracking {
+      public static final class Vision {
+        public static AprilTagFieldLayout kAprilTagFieldLayout = null;
+        static {
+            try {
+                kAprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public static final String kLeftCameraName = "LEFT";
+        public static final Transform3d kLeftRobotToCamera =
+            new Transform3d(
+                new Translation3d(0.5, 0.0, 0.5),
+                new Rotation3d(0, 0,0)); 
+
+        public static final String kRightCameraName = "RIGHT";
+        public static final Transform3d kRightRobotToCamera =
+            new Transform3d(
+                new Translation3d(0.5, 0.0, 0.5),
+                new Rotation3d(0, 0,0)); 
 
       }
 

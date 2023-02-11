@@ -6,23 +6,23 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.utils.Log;
+
+import frc.robot.lib.DataLog;
+import frc.robot.lib.Telemetry;
 
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
-
+  private static Robot m_robotInstance;
   private RobotContainer m_robotContainer;
+  private Command m_autonomousCommand;
 
   @Override
   public void robotInit() {
-    Log.start();
+    m_robotInstance = this;
+    DataLog.start();
+    Telemetry.start(); 
     m_robotContainer = new RobotContainer();    
-    if(Constants.kEnableAllTelemetry){
-      LiveWindow.enableAllTelemetry();
-    }
   }
 
   @Override
@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    Log.mode("DISABLED");
+    DataLog.mode("DISABLED");
   }
 
   @Override
@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    Log.mode("AUTONOMOUS");
+    DataLog.mode("AUTONOMOUS");
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     if (m_autonomousCommand != null) {
@@ -59,7 +59,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    Log.mode("TELEOP");
+    DataLog.mode("TELEOP");
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
@@ -81,4 +81,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testExit() {}
+
+   /** This function provides static access to create a custom periodic function in the current robot instance. */
+   public static void addCustomPeriodic(Runnable callback, double periodSeconds) {
+    m_robotInstance.addPeriodic(callback, periodSeconds, 0.333);
+  }
+  
 }

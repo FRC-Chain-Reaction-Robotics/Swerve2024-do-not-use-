@@ -34,7 +34,7 @@ public class SwerveModule {
   private final SparkMaxPIDController m_drivingPIDController;
   private final SparkMaxPIDController m_turningPIDController;
 
-  private double m_chassisAngularOffset = 0;
+  //private double m_chassisAngularOffset = 0;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
 
   private double m_drivingCANId;
@@ -73,7 +73,9 @@ public class SwerveModule {
     //ALTERNATIVE: Do this in PheonixTurner if no work
     config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
     //module offset, not chassis offset
-    config.magnetOffsetDegrees = Math.toDegrees(m_chassisAngularOffset);
+    //Swap to this line if error
+    //config.magnetOffsetDegrees = Math.toDegrees(m_chassisAngularOffset);
+    config.magnetOffsetDegrees = Math.toDegrees(chassisAngularOffset);
     config.sensorDirection = true;
 
     m_canCoder = new CANCoder(canCoderCANId);
@@ -131,7 +133,7 @@ public class SwerveModule {
     Timer.delay(1);
 
     // This is commented out because it is already being calculated by the CANcoder
-    m_chassisAngularOffset = chassisAngularOffset; 
+    //m_chassisAngularOffset = chassisAngularOffset; 
     m_desiredState.angle = new Rotation2d(Math.toRadians(m_canCoder.getAbsolutePosition()));
     m_drivingEncoder.setPosition(0);
     m_turningEncoder.setPosition(Math.toRadians(m_canCoder.getAbsolutePosition()));
@@ -171,7 +173,7 @@ public class SwerveModule {
     // Apply chassis angular offset to the desired state.
     SwerveModuleState correctedDesiredState = new SwerveModuleState();
     correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
-    correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
+    correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(m_canCoder.configGetMagnetOffset()));
 
     // Optimize the reference state to avoid spinning further than 90 degrees.
     SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,

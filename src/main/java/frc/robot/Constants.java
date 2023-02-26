@@ -79,25 +79,29 @@ public class Constants {
         public static final int kFrontLeftDrivingCanId = 8;
         public static final int kFrontLeftTurningCanId = 5;
         public static final int kFrontLeftCanCoderId = 62;
+<<<<<<< Updated upstream
         public static final double kFrontLeftChassisAngularOffset = 215.947265625 - 39.55078125;
+=======
+        public static final double kFrontLeftChassisAngularOffset = -Math.toRadians(328.887);   //   epic
+>>>>>>> Stashed changes
         
         //Front Right Module
         public static final int kFrontRightDrivingCanId = 4; 
         public static final int kFrontRightTurningCanId = 2;
         public static final int kFrontRightCanCoderId = 61;
-        public static final double kFrontRightChassisAngularOffset = 129.462890625 - 220.25390625;
+        public static final double kFrontRightChassisAngularOffset = -Math.toRadians(208.564);
         
          //Back Left Module
         public static final int kBackLeftDrivingCanId = 10;
         public static final int kBackLeftTurningCanId = 1;
         public static final int kBackLeftCanCoderId = 60;
-        public static final double kBackLeftChassisAngularOffset = 158.115234375 - 301.201171875;
+        public static final double kBackLeftChassisAngularOffset = -Math.toRadians(25.049);
         
         //Back Right Module
         public static final int kBackRightDrivingCanId = 7;
         public static final int kBackRightTurningCanId = 3;
         public static final int kBackRightCanCoderId = 14;
-        public static final double kBackRightChassisAngularOffset = 2.197265625 - 33.662109375;
+        public static final double kBackRightChassisAngularOffset = -Math.toRadians(355.869);
 
         public static final boolean kGyroReversed = false;
       }
@@ -113,7 +117,7 @@ public class Constants {
         public static final boolean kTurningEncoderInverted = true;
     
         // Calculations required for driving motor conversion factors and feed forward
-        public static final double kNeoMotorFreeSpeedRpm = 5000 * 0.9;
+        public static final double kNeoMotorFreeSpeedRpm = 5676;
 
         public static final double kDrivingMotorFreeSpeedRps = kNeoMotorFreeSpeedRpm / 60.0;
         public static final double kWheelDiameterMeters = Units.inchesToMeters(4); // 3 : 0.0762; // 3.75 : 0.09525; //3.8 : 0.09652; // 4 : 0.1016; //Units.inchesToMeters(4.0);

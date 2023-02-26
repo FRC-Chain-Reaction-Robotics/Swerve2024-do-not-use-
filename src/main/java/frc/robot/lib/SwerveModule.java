@@ -68,8 +68,17 @@ public class SwerveModule {
     
     CANCoderConfiguration config = new CANCoderConfiguration();
     config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
+<<<<<<< Updated upstream
     config.magnetOffsetDegrees = m_chassisAngularOffset;
     config.sensorDirection = direction == Direction.CLOCKWISE;
+=======
+    //ITS THE LINE!!!!!!! THE LINE OF ALL TIME!!
+    //ALTERNATIVE: Do this in PheonixTurner if no work
+    config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
+    //module offset, not chassis offset
+    config.magnetOffsetDegrees = Math.toDegrees(m_chassisAngularOffset);
+    config.sensorDirection = true;
+>>>>>>> Stashed changes
 
     m_canCoder = new CANCoder(canCoderCANId);
     CtreUtils.checkCtreError(m_canCoder.configAllSettings(config, 250), "Failed to configure CANCoder");
@@ -166,7 +175,7 @@ public class SwerveModule {
     // Apply chassis angular offset to the desired state.
     SwerveModuleState correctedDesiredState = new SwerveModuleState();
     correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
-    correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromDegrees(m_chassisAngularOffset));
+    correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
 
     // Optimize the reference state to avoid spinning further than 90 degrees.
     SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,

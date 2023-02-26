@@ -67,23 +67,13 @@ public class Constants {
             new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
             new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
             new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
-    
-
-       
-        
-        
-    
         // Swerve Module IDs
 
         //Front Left Module
         public static final int kFrontLeftDrivingCanId = 8;
         public static final int kFrontLeftTurningCanId = 5;
         public static final int kFrontLeftCanCoderId = 62;
-<<<<<<< Updated upstream
-        public static final double kFrontLeftChassisAngularOffset = 215.947265625 - 39.55078125;
-=======
         public static final double kFrontLeftChassisAngularOffset = -Math.toRadians(328.887);   //   epic
->>>>>>> Stashed changes
         
         //Front Right Module
         public static final int kFrontRightDrivingCanId = 4; 

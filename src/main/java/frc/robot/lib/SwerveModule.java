@@ -8,6 +8,7 @@ package frc.robot.lib;
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
@@ -68,17 +69,12 @@ public class SwerveModule {
     
     CANCoderConfiguration config = new CANCoderConfiguration();
     config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
-<<<<<<< Updated upstream
-    config.magnetOffsetDegrees = m_chassisAngularOffset;
-    config.sensorDirection = direction == Direction.CLOCKWISE;
-=======
     //ITS THE LINE!!!!!!! THE LINE OF ALL TIME!!
     //ALTERNATIVE: Do this in PheonixTurner if no work
     config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
     //module offset, not chassis offset
     config.magnetOffsetDegrees = Math.toDegrees(m_chassisAngularOffset);
     config.sensorDirection = true;
->>>>>>> Stashed changes
 
     m_canCoder = new CANCoder(canCoderCANId);
     CtreUtils.checkCtreError(m_canCoder.configAllSettings(config, 250), "Failed to configure CANCoder");

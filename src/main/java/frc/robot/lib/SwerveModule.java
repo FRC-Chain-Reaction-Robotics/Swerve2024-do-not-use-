@@ -66,15 +66,9 @@ public class SwerveModule {
     m_drivingSparkMax.restoreFactoryDefaults();
     m_turningSparkMax.restoreFactoryDefaults();
 
-<<<<<<< Updated upstream
     // SDS Module is inverted relative to the MAXSwerve (Wacky)
     m_drivingSparkMax.setInverted(true);;
     m_turningSparkMax.setInverted(true);;
-=======
-    // SDS Module is inverted relative to the MAXSwerve
-    m_drivingSparkMax.setInverted(true);
-    m_turningSparkMax.setInverted(true);
->>>>>>> Stashed changes
 
     // Setup encoders and PID controllers for the driving and turning SPARKS MAX.
     m_drivingEncoder = m_drivingSparkMax.getEncoder();
@@ -89,16 +83,11 @@ public class SwerveModule {
     //ITS THE LINE!!!!!!! THE LINE OF ALL TIME!!
     //ALTERNATIVE: Do this in PheonixTurner if no work
     config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
-<<<<<<< Updated upstream
-    //module offset, not chassis offset
-    config.magnetOffsetDegrees = m_chassisAngularOffset;
-    config.sensorDirection = direction == Direction.CLOCKWISE;
-=======
+
     //apply CANCoder Magnet Offset (bad name)
     config.magnetOffsetDegrees = Math.toDegrees(chassisAngularOffset);
     //Clockwise is Positive
     config.sensorDirection = true;
->>>>>>> Stashed changes
 
     m_canCoder = new CANCoder(canCoderCANId);
     CtreUtils.checkCtreError(m_canCoder.configAllSettings(config, 250), "Failed to configure CANCoder");
@@ -155,10 +144,6 @@ public class SwerveModule {
     // Best line ever
     Timer.delay(1);
 
-<<<<<<< Updated upstream
-=======
-    
->>>>>>> Stashed changes
     m_desiredState.angle = new Rotation2d(Math.toRadians(m_canCoder.getAbsolutePosition()));
     m_drivingEncoder.setPosition(0);
     m_turningEncoder.setPosition(Math.toRadians(m_canCoder.getAbsolutePosition()));
@@ -198,11 +183,7 @@ public class SwerveModule {
     // Apply chassis angular offset to the desired state.
     SwerveModuleState correctedDesiredState = new SwerveModuleState();
     correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
-<<<<<<< Updated upstream
-    correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromDegrees(m_chassisAngularOffset));
-=======
     correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(m_canCoder.configGetMagnetOffset()));
->>>>>>> Stashed changes
 
     // Optimize the reference state to avoid spinning further than 90 degrees.
     SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,

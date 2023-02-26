@@ -42,14 +42,9 @@ public class RobotContainer {
   private final PathPlannerTrajectory simplePath = PathPlanner.loadPath("SimplePath", 1, 1);
   
   public RobotContainer() {
-    m_elevator.setDefaultCommand(new RunCommand(() -> m_elevator.motorsOff(), m_elevator));
+    //m_elevator.setDefaultCommand(new RunCommand(() -> m_elevator.motorsOff(), m_elevator));
     setupDrive(); 
-<<<<<<< Updated upstream
     configureButtonBindings();
-=======
-    //Buttons Here!
-    //configureButtonBindings();
->>>>>>> Stashed changes
   }
 
   private void setupDrive() {
@@ -65,7 +60,7 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     //DRIVER
-    m_driverController.back().onTrue(new ZeroHeading(m_swerve));
+    m_driverController.y().onTrue(new InstantCommand(() -> m_swerve.zeroHeading(), m_swerve));
     // Hi! Check this out! It's an important button to press...
     // Zeroes out the gyro
     // Yup. You want to press that when the robot is facing North to ensure alignment.

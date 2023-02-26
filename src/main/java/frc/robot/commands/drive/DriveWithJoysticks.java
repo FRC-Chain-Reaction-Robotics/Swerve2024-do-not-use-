@@ -17,11 +17,6 @@ public class DriveWithJoysticks extends CommandBase {
   private final DoubleSupplier m_translationYSupplier;
   private final DoubleSupplier m_rotationSupplier;
 
-// Supplier is an interface that has a method that returns <T>
-// Double Supplier extends Supplier and defines that method to return <Double>
-// Functional Interfaces are FUNcKY 😎😎😎
-// Double Supplier has the getAsDouble() method
-
   public DriveWithJoysticks(Swerve swerve,
   DoubleSupplier translationXSupplier,
   DoubleSupplier translationYSupplier,
@@ -30,6 +25,7 @@ public class DriveWithJoysticks extends CommandBase {
     m_translationXSupplier = translationXSupplier;
     m_translationYSupplier = translationYSupplier;
     m_rotationSupplier = rotationSupplier;
+
     
     addRequirements(m_swerve);
   }
@@ -51,5 +47,4 @@ public class DriveWithJoysticks extends CommandBase {
   public boolean isFinished() {
     return false;
   }
-
 }

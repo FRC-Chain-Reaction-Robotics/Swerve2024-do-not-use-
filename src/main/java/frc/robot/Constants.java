@@ -63,34 +63,17 @@ public class Constants {
         // Chassis configuration
         
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-            // This is the Geometric Center of the Wheels (Center of Rotation of the Wheel)
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
             new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
             new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
             new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
         // Swerve Module IDs
-        // TODO: FIX OFFSETS
-        // WAYS TO ALIGN OFFSETS!!!!!!
-
-        // Any%
-        // 1) Set all the current offsets in code to 0
-        // 2) Turn the wheels to 0 {SET ALL THE BEVELS TO FACE LEFT/RIGHT}
-        // 3) Insert the negative (?) version of the current readings into offsets
-        // 4) Win 🏁✅🛫🛫🛫
-
-
-        // Colin with the Phoenix Tuner 25% of 25% Speedrun
-        // For each module:
-        // 1) driveMotor.set(+1) (but in phoenix, so not code lol) This drives that motor "forward"
-        // 2) 
-        // 3) 
-        // 4) 
 
         //Front Left Module
         public static final int kFrontLeftDrivingCanId = 8;
         public static final int kFrontLeftTurningCanId = 5;
         public static final int kFrontLeftCanCoderId = 62;
-        public static final double kFrontLeftChassisAngularOffset = -Math.toRadians(69_420);   //   epic
+        public static final double kFrontLeftChassisAngularOffset = -Math.toRadians(328.887);   //   epic
         
         //Front Right Module
         public static final int kFrontRightDrivingCanId = 4; 
@@ -110,7 +93,6 @@ public class Constants {
         public static final int kBackRightCanCoderId = 14;
         public static final double kBackRightChassisAngularOffset = -Math.toRadians(355.869);
 
-        //TODO: Check if this is correct
         public static final boolean kGyroReversed = false;
       }
     

@@ -44,7 +44,7 @@ public class RobotContainer {
   public RobotContainer() {
     //m_elevator.setDefaultCommand(new RunCommand(() -> m_elevator.motorsOff(), m_elevator));
     setupDrive(); 
-    configureButtonBindings();
+    //configureButtonBindings();
   }
 
   private void setupDrive() {
@@ -134,7 +134,6 @@ public class RobotContainer {
 // which is why i mention cleanup
 // maybe
     // Reset offset after any swerve module repairs [per module basis]
-
     //MANIPULATOR
     // new Trigger(m_manipulatorController::getAButton).onTrue(new EnableSuction(m_suction));
     // new Trigger(m_manipulatorController::getBButton).onTrue(new DisableSuction(m_suction));

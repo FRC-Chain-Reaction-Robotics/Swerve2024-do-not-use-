@@ -29,13 +29,12 @@ public class SwerveModule {
   private final RelativeEncoder m_drivingEncoder;
   private final RelativeEncoder m_turningEncoder;
   private final CANCoder m_canCoder;
-  // Why is the direction Counter Clockwise
   private Direction direction = Direction.COUNTER_CLOCKWISE;
 
   private final SparkMaxPIDController m_drivingPIDController;
   private final SparkMaxPIDController m_turningPIDController;
 
-  //private double m_chassisAngularOffset = 0;
+  private double m_chassisAngularOffset = 0;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
 
   private double m_drivingCANId;
@@ -45,28 +44,18 @@ public class SwerveModule {
    * MAXSwerve Module built with NEOs, SPARKS MAX, and a Through Bore
    * Encoder.
    */
-
-// In PhoenixTuner, you can set your turning motor encoders to be zeros there
-// Or, you could put the angular offsets of the turning encoders in Code
-// Zero by hand, and put -shuffleboard into constants for offset
-// TODO: Ask Colin if PhoenixTuner is better than Code
-
-
   public SwerveModule(int drivingCANId, int turningCANId, int canCoderCANId, double chassisAngularOffset) {
     m_drivingSparkMax = new CANSparkMax(drivingCANId, MotorType.kBrushless);
     m_turningSparkMax = new CANSparkMax(turningCANId, MotorType.kBrushless);
-    // This is commented out because it is already being stored in the CANCoder Config on Line 78 (config.magnetOffsetDegrees)
-    //m_chassisAngularOffset = chassisAngularOffset; 
+
     m_drivingCANId = drivingCANId;
-    //Sus Line below, comment maybe if bad? :amogus:
-    m_chassisAngularOffset = chassisAngularOffset; 
 
     // Factory reset, so we get the SPARKS MAX to a known state before configuring
     // them. This is useful in case a SPARK MAX is swapped out.
     m_drivingSparkMax.restoreFactoryDefaults();
     m_turningSparkMax.restoreFactoryDefaults();
 
-    // SDS Module is inverted relative to the MAXSwerve (Wacky)
+    // SDS Module is inverted relative to the MAXSwerve
     m_drivingSparkMax.setInverted(true);;
     m_turningSparkMax.setInverted(true);;
 
@@ -83,10 +72,8 @@ public class SwerveModule {
     //ITS THE LINE!!!!!!! THE LINE OF ALL TIME!!
     //ALTERNATIVE: Do this in PheonixTurner if no work
     config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
-
-    //apply CANCoder Magnet Offset (bad name)
-    config.magnetOffsetDegrees = Math.toDegrees(chassisAngularOffset);
-    //Clockwise is Positive
+    //module offset, not chassis offset
+    config.magnetOffsetDegrees = Math.toDegrees(m_chassisAngularOffset);
     config.sensorDirection = true;
 
     m_canCoder = new CANCoder(canCoderCANId);
@@ -141,9 +128,10 @@ public class SwerveModule {
     m_turningSparkMax.burnFlash();
 
     // This allows time for the absolute position to be sent by the CANcoder (we know this isn't the best solution, we'll fix it later)
-    // Best line ever
     Timer.delay(1);
 
+    // This is commented out because it is already being calculated by the CANcoder
+    m_chassisAngularOffset = chassisAngularOffset; 
     m_desiredState.angle = new Rotation2d(Math.toRadians(m_canCoder.getAbsolutePosition()));
     m_drivingEncoder.setPosition(0);
     m_turningEncoder.setPosition(Math.toRadians(m_canCoder.getAbsolutePosition()));
@@ -183,7 +171,7 @@ public class SwerveModule {
     // Apply chassis angular offset to the desired state.
     SwerveModuleState correctedDesiredState = new SwerveModuleState();
     correctedDesiredState.speedMetersPerSecond = desiredState.speedMetersPerSecond;
-    correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(m_canCoder.configGetMagnetOffset()));
+    correctedDesiredState.angle = desiredState.angle.plus(Rotation2d.fromRadians(m_chassisAngularOffset));
 
     // Optimize the reference state to avoid spinning further than 90 degrees.
     SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
@@ -195,10 +183,9 @@ public class SwerveModule {
     m_drivingPIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
     m_turningPIDController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
 
-    //Wack
-    // if(m_drivingCANId == 1 && DriverStation.isAutonomous()){
-    //   System.out.println(desiredState.angle.getRadians() + " " + correctedDesiredState.angle.getRadians() + " " + m_turningEncoder.getPosition());
-    // }
+    if(m_drivingCANId == 1 && DriverStation.isAutonomous()){
+      System.out.println(desiredState.angle.getRadians() + " " + correctedDesiredState.angle.getRadians() + " " + m_turningEncoder.getPosition());
+    }
 
     m_desiredState = desiredState;
 

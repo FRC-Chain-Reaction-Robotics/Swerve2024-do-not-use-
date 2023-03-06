@@ -244,25 +244,4 @@ public class Swerve extends SubsystemBase {
     m_gyro.initSendable(builder);
   }
 
-  public void setDriveMotorIdleMode(IdleMode mode)
-  {
-    ArrayList<CANSparkMax> driveMotors = new ArrayList<CANSparkMax>(); 
-    driveMotors.set(0, m_frontLeft.getDriveMotor());
-    driveMotors.set(1, m_frontRight.getDriveMotor());
-    driveMotors.set(2, m_rearLeft.getDriveMotor());
-    driveMotors.set(3, m_rearRight.getDriveMotor());
-
-    driveMotors.forEach(m -> m.setIdleMode(mode));
-  }
-
-  public void setTurnMotorIdleMode(IdleMode mode)
-  {
-    ArrayList<CANSparkMax> turnMotors = new ArrayList<CANSparkMax>(); 
-    turnMotors.set(0, m_frontLeft.getTurnMotor());
-    turnMotors.set(1, m_frontRight.getTurnMotor());
-    turnMotors.set(2, m_rearLeft.getTurnMotor());
-    turnMotors.set(3, m_rearRight.getTurnMotor());
-
-    turnMotors.forEach(m -> m.setIdleMode(mode));
-  }
 }

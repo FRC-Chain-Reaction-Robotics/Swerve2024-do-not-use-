@@ -74,7 +74,6 @@ public class Constants {
         public static final int kFrontLeftTurningCanId = 5;
         public static final int kFrontLeftCanCoderId = 62;
         public static final double kFrontLeftChassisAngularOffset = -Math.toRadians(328.887);   //   epic
-        public static final double kFrontLeftChassisAngularOffset = -Math.toRadians(156.445);   //   epic
         
         //Front Right Module
         public static final int kFrontRightDrivingCanId = 4; 

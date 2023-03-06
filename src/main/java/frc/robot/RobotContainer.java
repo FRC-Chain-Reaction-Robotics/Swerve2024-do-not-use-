@@ -7,24 +7,18 @@ package frc.robot;
 
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
-import com.revrobotics.CANSparkMax.IdleMode;
-
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 // import frc.robot.commands.arm.ExtendArm;
 // import frc.robot.commands.arm.RetractArm;
 // import frc.robot.commands.auto.FollowTrajectory;
 import frc.robot.commands.drive.DriveWithJoysticks;
-import frc.robot.commands.drive.ZeroHeading;
+//import frc.robot.commands.drive.ZeroHeading;
 // import frc.robot.commands.suction.DisableSuction;
 // import frc.robot.commands.suction.EnableSuction;
-import frc.robot.lib.Utils;
+//import frc.robot.lib.Utils;
 import frc.robot.subsystems.Elevator;
 // import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Swerve;
@@ -44,7 +38,7 @@ public class RobotContainer {
   public RobotContainer() {
     //m_elevator.setDefaultCommand(new RunCommand(() -> m_elevator.motorsOff(), m_elevator));
     setupDrive(); 
-    //configureButtonBindings();
+    configureButtonBindings();
   }
 
   private void setupDrive() {
@@ -134,10 +128,7 @@ public class RobotContainer {
 // which is why i mention cleanup
 // maybe
     // Reset offset after any swerve module repairs [per module basis]
-<<<<<<< HEAD
 
-=======
->>>>>>> 0892704f5d72be7e6802db36b4e1df15508f4420
     //MANIPULATOR
     // new Trigger(m_manipulatorController::getAButton).onTrue(new EnableSuction(m_suction));
     // new Trigger(m_manipulatorController::getBButton).onTrue(new DisableSuction(m_suction));
@@ -154,16 +145,10 @@ public class RobotContainer {
   // }
 
   public void disabledInit()
-  {
-    m_swerve.setDriveMotorIdleMode(IdleMode.kCoast);
-    m_swerve.setTurnMotorIdleMode(IdleMode.kCoast);
-  }
+  {}
 
   public void enabledInit()
-  {
-    m_swerve.setDriveMotorIdleMode(IdleMode.kBrake);
-    m_swerve.setTurnMotorIdleMode(IdleMode.kBrake);
-  }
+  { }
 
   private static double modifyAxis(double value)
   {

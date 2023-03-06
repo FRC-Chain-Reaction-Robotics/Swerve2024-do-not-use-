@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -59,9 +60,6 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     //DRIVER
-<<<<<<< Updated upstream
-    m_driverController.back().onTrue(new ZeroHeading(m_swerve));
-=======
     m_driverController.y().onTrue(new InstantCommand(() -> m_swerve.zeroHeading(), m_swerve));
     // Hi! Check this out! It's an important button to press...
     // Zeroes out the gyro
@@ -136,7 +134,6 @@ public class RobotContainer {
 // which is why i mention cleanup
 // maybe
     // Reset offset after any swerve module repairs [per module basis]
->>>>>>> Stashed changes
 
     //MANIPULATOR
     // new Trigger(m_manipulatorController::getAButton).onTrue(new EnableSuction(m_suction));

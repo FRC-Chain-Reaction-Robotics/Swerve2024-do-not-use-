@@ -5,9 +5,7 @@
 
 package frc.robot.lib;
 
-import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
@@ -28,7 +26,6 @@ public class SwerveModule {
   private final RelativeEncoder m_drivingEncoder;
   private final RelativeEncoder m_turningEncoder;
   private final CANCoder m_canCoder;
-  private Direction direction = Direction.COUNTER_CLOCKWISE;
 
   private final SparkMaxPIDController m_drivingPIDController;
   private final SparkMaxPIDController m_turningPIDController;
@@ -61,27 +58,11 @@ public class SwerveModule {
     // Setup encoders and PID controllers for the driving and turning SPARKS MAX.
     m_drivingEncoder = m_drivingSparkMax.getEncoder();
     m_turningEncoder = m_turningSparkMax.getEncoder();
+    m_canCoder = new CANCoder(canCoderCANId);
     m_drivingPIDController = m_drivingSparkMax.getPIDController();
     m_turningPIDController = m_turningSparkMax.getPIDController();
     m_drivingPIDController.setFeedbackDevice(m_drivingEncoder);
     m_turningPIDController.setFeedbackDevice(m_turningEncoder);
-    
-    CANCoderConfiguration config = new CANCoderConfiguration();
-    config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
-<<<<<<< Updated upstream
-    config.magnetOffsetDegrees = m_chassisAngularOffset;
-    config.sensorDirection = direction == Direction.CLOCKWISE;
-=======
-    //ITS THE LINE!!!!!!! THE LINE OF ALL TIME!!
-    //ALTERNATIVE: Do this in PheonixTurner if no work
-    config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
-    //module offset, not chassis offset
-    config.magnetOffsetDegrees = Math.toDegrees(m_chassisAngularOffset);
-    config.sensorDirection = true;
->>>>>>> Stashed changes
-
-    m_canCoder = new CANCoder(canCoderCANId);
-    CtreUtils.checkCtreError(m_canCoder.configAllSettings(config, 250), "Failed to configure CANCoder");
 
     // Apply position and velocity conversion factors for the driving encoder. The
     // native units for position and velocity are rotations and RPM, respectively,
@@ -135,10 +116,11 @@ public class SwerveModule {
     Timer.delay(1);
 
     // This is commented out because it is already being calculated by the CANcoder
-    m_chassisAngularOffset = chassisAngularOffset; 
+    // m_chassisAngularOffset = chassisAngularOffset; 
     m_desiredState.angle = new Rotation2d(Math.toRadians(m_canCoder.getAbsolutePosition()));
     m_drivingEncoder.setPosition(0);
     m_turningEncoder.setPosition(Math.toRadians(m_canCoder.getAbsolutePosition()));
+    
   }
 
   /**
@@ -150,7 +132,7 @@ public class SwerveModule {
     // Apply chassis angular offset to the encoder position to get the position
     // relative to the chassis.
     return new SwerveModuleState(m_drivingEncoder.getVelocity(),
-        new Rotation2d(m_turningEncoder.getPosition()));
+        new Rotation2d(m_turningEncoder.getPosition() - m_chassisAngularOffset));
   }
 
   /**
@@ -163,7 +145,7 @@ public class SwerveModule {
     // relative to the chassis.
     return new SwerveModulePosition(
         m_drivingEncoder.getPosition(),
-        new Rotation2d(m_turningEncoder.getPosition()));
+        new Rotation2d(m_turningEncoder.getPosition() - m_chassisAngularOffset));
   }
 
   /**
@@ -214,20 +196,5 @@ public class SwerveModule {
 
   public double getDrivingVelocity(){
     return m_drivingEncoder.getVelocity();
-  }
-
-  public CANSparkMax getDriveMotor()
-  {
-    return m_drivingSparkMax;
-  }
-
-  public CANSparkMax getTurnMotor()
-  {
-    return m_turningSparkMax;
-  }
-
-  public enum Direction {
-    CLOCKWISE,
-    COUNTER_CLOCKWISE
   }
 }

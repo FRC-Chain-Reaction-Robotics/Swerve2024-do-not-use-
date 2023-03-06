@@ -134,7 +134,10 @@ public class RobotContainer {
 // which is why i mention cleanup
 // maybe
     // Reset offset after any swerve module repairs [per module basis]
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0892704f5d72be7e6802db36b4e1df15508f4420
     //MANIPULATOR
     // new Trigger(m_manipulatorController::getAButton).onTrue(new EnableSuction(m_suction));
     // new Trigger(m_manipulatorController::getBButton).onTrue(new DisableSuction(m_suction));

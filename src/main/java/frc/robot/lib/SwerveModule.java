@@ -5,7 +5,10 @@
 
 package frc.robot.lib;
 
+import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.SensorInitializationStrategy;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.RelativeEncoder;
@@ -32,7 +35,7 @@ public class SwerveModule {
 
   private double m_chassisAngularOffset = 0;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
-
+  private CANCoderConfiguration config = new CANCoderConfiguration();
   private double m_drivingCANId;
   /**
    * Constructs a MAXSwerveModule and configures the driving and turning motor,
@@ -41,6 +44,9 @@ public class SwerveModule {
    * Encoder.
    */
   public SwerveModule(int drivingCANId, int turningCANId, int canCoderCANId, double chassisAngularOffset) {
+    config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
+    config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
+    
     m_drivingSparkMax = new CANSparkMax(drivingCANId, MotorType.kBrushless);
     m_turningSparkMax = new CANSparkMax(turningCANId, MotorType.kBrushless);
 

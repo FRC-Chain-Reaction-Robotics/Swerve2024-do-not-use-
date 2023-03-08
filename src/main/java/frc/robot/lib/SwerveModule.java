@@ -44,8 +44,9 @@ public class SwerveModule {
    * Encoder.
    */
   public SwerveModule(int drivingCANId, int turningCANId, int canCoderCANId, double chassisAngularOffset) {
-    config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
+    config.absoluteSensorRange = AbsoluteSensorRange.Signed_PlusMinus180;
     config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
+    //config.magnetOffsetDegrees = Math.toDegrees(chassisAngularOffset);
     
     m_drivingSparkMax = new CANSparkMax(drivingCANId, MotorType.kBrushless);
     m_turningSparkMax = new CANSparkMax(turningCANId, MotorType.kBrushless);
@@ -122,7 +123,7 @@ public class SwerveModule {
     Timer.delay(1);
 
     // This is commented out because it is already being calculated by the CANcoder
-    // m_chassisAngularOffset = chassisAngularOffset; 
+    m_chassisAngularOffset = chassisAngularOffset; 
     m_desiredState.angle = new Rotation2d(Math.toRadians(m_canCoder.getAbsolutePosition()));
     m_drivingEncoder.setPosition(0);
     m_turningEncoder.setPosition(Math.toRadians(m_canCoder.getAbsolutePosition()));
@@ -175,9 +176,6 @@ public class SwerveModule {
     m_drivingPIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
     m_turningPIDController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
 
-    if(m_drivingCANId == 1 && DriverStation.isAutonomous()){
-      System.out.println(desiredState.angle.getRadians() + " " + correctedDesiredState.angle.getRadians() + " " + m_turningEncoder.getPosition());
-    }
 
     m_desiredState = desiredState;
 

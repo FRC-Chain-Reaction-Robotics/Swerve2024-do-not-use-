@@ -128,14 +128,14 @@ public class Swerve extends SubsystemBase {
   //   m_fieldSim.setRobotPose(m_poseEstimator.getEstimatedPosition());
     }
 
-  // /**
-  //  * Returns the currently-estimated pose of the robot.
-  //  *
-  //  * @return The pose.
-  //  */
-  // public Pose2d getPose() {
-  //   return m_poseEstimator.getEstimatedPosition();
-  //}
+   /**
+    * Returns the currently-estimated pose of the robot.
+    *
+    * @return The pose.
+    */
+   public Pose2d getPose() {
+     return m_poseEstimator.getEstimatedPosition();
+   }
 
   /**
    * Resets the odometry to the specified pose.

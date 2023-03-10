@@ -117,7 +117,7 @@ public class Constants {
         public static final double kDriveWheelFreeSpeedRps = (kDrivingMotorFreeSpeedRps * kWheelCircumferenceMeters)
             /kDrivingMotorReduction;
     
-        public static final double kSteeringMotorReduction = 150.0 / 7.0;
+        public static final double kSteeringMotorReduction = 12.8;
     
         public static final double kDrivingEncoderPositionFactor = (kWheelDiameterMeters * Math.PI)
             / kDrivingMotorReduction; // meters

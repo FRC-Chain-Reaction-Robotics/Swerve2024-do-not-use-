@@ -75,7 +75,7 @@ public class RobotContainer {
 
   private static double modifyAxis(double value)
   {
-    value = deadBand(value, 0.075);
+    value = deadBand(value, 0.1);
 
     value = value * value * value;
 

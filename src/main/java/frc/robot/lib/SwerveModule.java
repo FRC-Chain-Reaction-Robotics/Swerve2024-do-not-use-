@@ -44,7 +44,7 @@ public class SwerveModule {
    * Encoder.
    */
   public SwerveModule(int drivingCANId, int turningCANId, int canCoderCANId, double chassisAngularOffset) {
-    config.absoluteSensorRange = AbsoluteSensorRange.Signed_PlusMinus180;
+    config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
     config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
     //config.magnetOffsetDegrees = Math.toDegrees(chassisAngularOffset);
     

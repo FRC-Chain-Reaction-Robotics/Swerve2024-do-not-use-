@@ -92,13 +92,13 @@ public class Swerve extends SubsystemBase {
     updatePose();
 
     SmartDashboard.putNumber("Drive/Swerve/FrontLeft/SteeringRelativePosition", m_frontLeft.getSteeringRelativePosition());
-    SmartDashboard.putNumber("Drive/Swerve/FrontLeft/SteeringAbsolutePosition", m_frontLeft.getSteeringAbsolutePosition());
+    SmartDashboard.putNumber("FrontLeft SteeringAbsolutePosition", m_frontLeft.getSteeringAbsolutePosition());
     SmartDashboard.putNumber("Drive/Swerve/FrontRight/SteeringRelativePosition", m_frontRight.getSteeringRelativePosition());
-    SmartDashboard.putNumber("Drive/Swerve/FrontRight/SteeringAbsolutePosition", m_frontRight.getSteeringAbsolutePosition());
+    SmartDashboard.putNumber("FrontRight SteeringAbsolutePosition", m_frontRight.getSteeringAbsolutePosition());
     SmartDashboard.putNumber("Drive/Swerve/RearLeft/SteeringRelativePosition", m_rearLeft.getSteeringRelativePosition());
-    SmartDashboard.putNumber("Drive/Swerve/RearLeft/SteeringAbsolutePosition", m_rearLeft.getSteeringAbsolutePosition());
+    SmartDashboard.putNumber("RearLeft SteeringAbsolutePosition", m_rearLeft.getSteeringAbsolutePosition());
     SmartDashboard.putNumber("Drive/Swerve/RearRight/SteeringRelativePosition", m_rearRight.getSteeringRelativePosition());
-    SmartDashboard.putNumber("Drive/Swerve/RearRight/SteeringAbsolutePosition", m_rearRight.getSteeringAbsolutePosition());
+    SmartDashboard.putNumber("RearRight SteeringAbsolutePosition", m_rearRight.getSteeringAbsolutePosition());
     SmartDashboard.putNumber("Drive/NavX/Angle", m_gyro.getAngle());
     SmartDashboard.putNumber("Drive/NavX/Yaw", m_gyro.getYaw());
     SmartDashboard.putNumber("Front Left Relative Position", m_frontLeft.getDrivingRelativePosition());

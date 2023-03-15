@@ -36,7 +36,7 @@ public class SwerveModule {
   private double m_chassisAngularOffset = 0;
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
   private CANCoderConfiguration config = new CANCoderConfiguration();
-  private double m_drivingCANId;
+  //private double m_drivingCANId;
   /**
    * Constructs a MAXSwerveModule and configures the driving and turning motor,
    * encoder, and PID controller. This configuration is specific to the REV
@@ -51,7 +51,7 @@ public class SwerveModule {
     m_drivingSparkMax = new CANSparkMax(drivingCANId, MotorType.kBrushless);
     m_turningSparkMax = new CANSparkMax(turningCANId, MotorType.kBrushless);
 
-    m_drivingCANId = drivingCANId;
+   // m_drivingCANId = drivingCANId;
 
     // Factory reset, so we get the SPARKS MAX to a known state before configuring
     // them. This is useful in case a SPARK MAX is swapped out.

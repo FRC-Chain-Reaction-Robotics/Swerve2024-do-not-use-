@@ -1,34 +1,42 @@
-// // Copyright (c) 2023 FRC Team 2881 - The Lady Cans
-// //
-// // Open Source Software; you can modify and/or share it under the terms of BSD
-// // license file in the root directory of this project.
+package frc.robot.subsystems;
 
-// package frc.robot.subsystems;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-// import com.revrobotics.CANSparkMax;
-// import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import edu.wpi.first.wpilibj.DutyCycle;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
-// import edu.wpi.first.wpilibj2.command.SubsystemBase;
-// import frc.robot.Constants;
+public class Arm extends SubsystemBase
+{
+    private CANSparkMax rightMotor;
+    private CANSparkMax leftMotor;
+    
+    private RelativeEncoder rightEncoder;
+    private RelativeEncoder leftEncoder;
 
-// public class Arm extends SubsystemBase {
-//   private final CANSparkMax m_extensionMotor;
+    private DutyCycleEncoder throughBEncoder;
 
-//   /** Creates a new Arm. */
-//   public Arm() {
-//     m_extensionMotor = new CANSparkMax(Constants.Arm.kExtensionMotorId, MotorType.kBrushless);
-//   }
+    public Arm()
+    {
+        rightMotor = new CANSparkMax(Constants.Arm.kRightMotorId, MotorType.kBrushless);
+        leftMotor = new CANSparkMax(Constants.Arm.kLeftMotorId, MotorType.kBrushless);
 
-//   @Override
-//   public void periodic() {
-//     // This method will be called once per scheduler run
-//   }
+        leftMotor.restoreFactoryDefaults();
+        rightMotor.restoreFactoryDefaults();
 
-//   public void extend(double speed) {
-//     m_extensionMotor.set(speed);
-//   }
+        leftMotor.burnFlash();
+        rightMotor.burnFlash();
 
-//   public void retract(double speed) {
-//     m_extensionMotor.set(-speed);
-//   }
-// }
+        leftMotor.setInverted(true);
+        rightMotor.setInverted(false);
+
+        
+        rightEncoder = rightMotor.getEncoder();
+        leftEncoder = leftMotor.getEncoder();
+
+        //throughBEncoder = new DutyCycleEncoder();
+    }
+}

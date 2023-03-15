@@ -21,7 +21,6 @@ import frc.robot.commands.drive.DriveWithJoysticks;
 // import frc.robot.commands.suction.DisableSuction;
 // import frc.robot.commands.suction.EnableSuction;
 //import frc.robot.lib.Utils;
-import frc.robot.subsystems.Elevator;
 // import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Swerve;
 // import frc.robot.subsystems.Suction;
@@ -30,7 +29,7 @@ public class RobotContainer {
   private Swerve m_swerve = new Swerve();
   // private Suction m_suction = new Suction();
   // private Arm m_arm = new Arm();
-  private Elevator m_elevator = new Elevator();
+  
 
   private final CommandXboxController m_driverController = new CommandXboxController(Constants.Controllers.kDriverControllerPort);
   private final CommandXboxController m_manipulatorController = new CommandXboxController(Constants.Controllers.kManipulatorControllerPort);
@@ -59,8 +58,8 @@ public class RobotContainer {
     m_driverController.y().onTrue(new InstantCommand(() -> m_swerve.zeroHeading(), m_swerve));
    
     //Elevator
-    m_driverController.povUp().whileTrue(new RunCommand(() -> m_elevator.motorsOn(0.5), m_elevator)).or(m_driverController.povDown().whileTrue(new RunCommand(() -> m_elevator.motorsOn(-0.5), m_elevator)))
-    .whileFalse(new RunCommand(m_elevator::motorsOff, m_elevator));
+    //m_driverController.povUp().whileTrue(new RunCommand(() -> m_elevator.motorsOn(0.5), m_elevator)).or(m_driverController.povDown().whileTrue(new RunCommand(() -> m_elevator.motorsOn(-0.5), m_elevator)))
+    //.whileFalse(new RunCommand(m_elevator::motorsOff, m_elevator));
   }
 
   public Command getAutonomousCommand() {

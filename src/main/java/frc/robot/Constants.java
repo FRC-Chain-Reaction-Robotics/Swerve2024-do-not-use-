@@ -28,23 +28,16 @@ public class Constants {
         public static final double kDeadband = 0.1; 
     }
     
-    //public static final class Arm {
-        /**
-         * The CAN ID of the extension motor.
-         */
-        //public static final int kExtensionMotorId = 41;
-    //}
+    public static final class Arm {
+       
+        public static final int kRightMotorId = 9;
+        public static final int kLeftMotorId = 6;
+    }
 
     public static final class Clamps {
 
     }
 
-    public static final class Elevator{
-
-        public static final int kLeftElevatorMotor = 9;
-        public static final int kRightElevatorMotor = 6;
-    
-    }
 
     public static final class Swerve {
         // Driving Parameters - Note that these are not the maximum capable speeds of
@@ -54,8 +47,8 @@ public class Constants {
         public static final double kWheelBase = Units.inchesToMeters(15.5);
         // Distance between front and back wheels on robot
        
-        public static final double kMaxSpeedMetersPerSecond = SwerveModule.kDrivingMotorFreeSpeedRps * 
-            SwerveModule.kDrivingMotorReduction * 
+        public static final double kMaxSpeedMetersPerSecond = (SwerveModule.kDrivingMotorFreeSpeedRps / 
+            SwerveModule.kDrivingMotorReduction) * 
             SwerveModule.kWheelDiameterMeters * 
             Math.PI;
         public static final double kMaxAngularSpeed = kMaxSpeedMetersPerSecond/Math.hypot(kTrackWidth/2.0, kWheelBase/2.0); // radians per second
@@ -147,8 +140,8 @@ public class Constants {
         public static final double kTurningMinOutput = -1;
         public static final double kTurningMaxOutput = 1;
     
-        public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
-        public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
+        public static final IdleMode kDrivingMotorIdleMode = IdleMode.kCoast;
+        public static final IdleMode kTurningMotorIdleMode = IdleMode.kCoast;
     
         public static final int kDrivingMotorCurrentLimit = 50; // amps
         public static final int kTurningMotorCurrentLimit = 20; // amps

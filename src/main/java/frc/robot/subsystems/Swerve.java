@@ -187,6 +187,15 @@ public class Swerve extends SubsystemBase {
     m_rearRight.setDesiredState(swerveModuleStates[3]);
   }
 
+  public double getDistanceMeters()
+	{
+		// return 0.0;
+		return Math.max(
+      Math.max(m_frontLeft.getDrivingRelativePosition(), m_frontRight.getDrivingRelativePosition()),
+      Math.max(m_rearLeft.getDrivingRelativePosition(), m_rearRight.getDrivingRelativePosition())
+    );
+	}
+
   private static double deadBand(double value, double deadband)
   {
     if (Math.abs(value) > deadband)

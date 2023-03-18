@@ -8,11 +8,14 @@ package frc.robot;
 import com.pathplanner.lib.PathPlanner;
 import com.pathplanner.lib.PathPlannerTrajectory;
 
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-
+import frc.robot.commands.auto.DriveToDistance;
 // import frc.robot.commands.arm.ExtendArm;
 // import frc.robot.commands.arm.RetractArm;
 import frc.robot.commands.auto.FollowTrajectory;
@@ -27,6 +30,8 @@ import frc.robot.subsystems.Swerve;
 // import frc.robot.subsystems.Suction;
 
 public class RobotContainer {
+
+  private final SendableChooser<Command> chooser = new SendableChooser<Command>();
   private Swerve m_swerve = new Swerve();
   // private Suction m_suction = new Suction();
   //eprivate Arm m_arm = new Arm();
@@ -41,6 +46,12 @@ public class RobotContainer {
     //m_elevator.setDefaultCommand(new RunCommand(() -> m_elevator.motorsOff(), m_elevator));
     setupDrive(); 
     configureButtonBindings();
+    
+    //Creating a dropdown for autonomous commands to choose from
+    chooser.setDefaultOption("PathPlanner Command", new FollowTrajectory(simplePath, true, m_swerve));
+    //chooser.addOption("Turn To Angle", new TurnToAngle(90, dt));
+    chooser.addOption("Drive To Distance", new DriveToDistance(Units.feetToMeters(7), m_swerve));
+    SmartDashboard.putData(chooser);
   }
 
   private void setupDrive() {
@@ -63,14 +74,12 @@ public class RobotContainer {
     // .or(m_operatorController.povDown().whileTrue(new RunCommand(() -> m_arm.move(-0.5), m_arm)))
     // .whileFalse(new RunCommand(() -> m_arm.move(0), m_arm));
     
-    // m_operatorController.a().whileTrue(new RunCommand(() -> m_arm.moveExtensionArm(0.5), m_arm))
-    // .or(m_operatorController.b().whileTrue(new RunCommand(() -> m_arm.moveExtensionArm(-0.5), m_arm)))
-    // .whileFalse(new RunCommand(() -> m_arm.moveExtensionArm(0), m_arm));
+    // m_operatorController.a().onTrue(new ExtendArm(0.5), m_arm))
     
   }
 
   public Command getAutonomousCommand() {
-     return new FollowTrajectory(simplePath, true, m_swerve);
+     return chooser.getSelected();
   }
 
   public void disabledInit()

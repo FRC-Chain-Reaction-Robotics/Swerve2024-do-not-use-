@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import frc.robot.commands.arm.RetractArm;
 import frc.robot.commands.auto.FollowTrajectory;
 import frc.robot.commands.drive.DriveWithJoysticks;
+import frc.robot.subsystems.Arm;
 //import frc.robot.commands.drive.ZeroHeading;
 // import frc.robot.commands.suction.DisableSuction;
 // import frc.robot.commands.suction.EnableSuction;
@@ -28,7 +29,7 @@ import frc.robot.subsystems.Swerve;
 public class RobotContainer {
   private Swerve m_swerve = new Swerve();
   // private Suction m_suction = new Suction();
-  // private Arm m_arm = new Arm();
+  //eprivate Arm m_arm = new Arm();
   
 
   private final CommandXboxController m_driverController = new CommandXboxController(Constants.Controllers.kDriverControllerPort);
@@ -57,9 +58,15 @@ public class RobotContainer {
     //DRIVER
     m_driverController.y().onTrue(new InstantCommand(() -> m_swerve.zeroHeading(), m_swerve));
    
-    //Elevator
-    //m_driverController.povUp().whileTrue(new RunCommand(() -> m_elevator.motorsOn(0.5), m_elevator)).or(m_driverController.povDown().whileTrue(new RunCommand(() -> m_elevator.motorsOn(-0.5), m_elevator)))
-    //.whileFalse(new RunCommand(m_elevator::motorsOff, m_elevator));
+    //Arm
+    // m_operatorController.povUp().whileTrue(new RunCommand(() -> m_arm.move(0.5), m_arm))
+    // .or(m_operatorController.povDown().whileTrue(new RunCommand(() -> m_arm.move(-0.5), m_arm)))
+    // .whileFalse(new RunCommand(() -> m_arm.move(0), m_arm));
+    
+    // m_operatorController.a().whileTrue(new RunCommand(() -> m_arm.moveExtensionArm(0.5), m_arm))
+    // .or(m_operatorController.b().whileTrue(new RunCommand(() -> m_arm.moveExtensionArm(-0.5), m_arm)))
+    // .whileFalse(new RunCommand(() -> m_arm.moveExtensionArm(0), m_arm));
+    
   }
 
   public Command getAutonomousCommand() {

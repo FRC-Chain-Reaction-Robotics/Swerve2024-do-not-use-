@@ -167,6 +167,14 @@ public class Swerve extends SubsystemBase {
     // ySpeed *= Constants.Swerve.kMaxSpeedMetersPerSecond;
     // rot *= Constants.Swerve.kMaxAngularSpeed;
 
+    double deadband = 4.572 / 10;
+    xSpeed = deadBand(xSpeed, deadband);
+    ySpeed = deadBand(ySpeed, deadband);
+    
+    double deadbandRot = 2 * Math.PI / 9.45;
+    rot = deadBand(rot, deadbandRot);
+
+
     var swerveModuleStates = Constants.Swerve.kDriveKinematics.toSwerveModuleStates(
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(m_gyro.getAngle()))
@@ -177,6 +185,19 @@ public class Swerve extends SubsystemBase {
     m_frontRight.setDesiredState(swerveModuleStates[1]);
     m_rearLeft.setDesiredState(swerveModuleStates[2]);
     m_rearRight.setDesiredState(swerveModuleStates[3]);
+  }
+
+  private static double deadBand(double value, double deadband)
+  {
+    if (Math.abs(value) > deadband)
+    {
+      if (value > 0.0)
+        return (value - deadband)/(1.0 - deadband);
+      else
+        return (value + deadband)/(1.0 - deadband);
+    }
+    else
+      return 0.0;
   }
 
   /**

@@ -32,7 +32,7 @@ public class RobotContainer {
   
 
   private final CommandXboxController m_driverController = new CommandXboxController(Constants.Controllers.kDriverControllerPort);
-  private final CommandXboxController m_manipulatorController = new CommandXboxController(Constants.Controllers.kManipulatorControllerPort);
+  private final CommandXboxController m_operatorController = new CommandXboxController(Constants.Controllers.kManipulatorControllerPort);
 
   private final PathPlannerTrajectory simplePath = PathPlanner.loadPath("SimplePath", 1, 1);
   
@@ -74,7 +74,7 @@ public class RobotContainer {
 
   private static double modifyAxis(double value)
   {
-    value = deadBand(value, 0.1);
+    value = deadBand(value, 0.075);
 
     value = value * value * value;
 

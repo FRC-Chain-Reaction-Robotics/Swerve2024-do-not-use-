@@ -35,12 +35,12 @@ public class DriveWithJoysticks extends CommandBase {
    m_swerve.drive(m_translationXSupplier.getAsDouble() * Constants.Swerve.kMaxSpeedMetersPerSecond, 
    m_translationYSupplier.getAsDouble() * Constants.Swerve.kMaxSpeedMetersPerSecond, 
    m_rotationSupplier.getAsDouble() * Constants.Swerve.kMaxAngularSpeed, 
-   true);
+   false);
   }
 
   @Override
   public void end(boolean interrupted) {
-   m_swerve.drive(0, 0, 0, true);
+   m_swerve.drive(0, 0, 0, false);
   }
 
   @Override

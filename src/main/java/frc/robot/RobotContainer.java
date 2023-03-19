@@ -16,12 +16,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.auto.DriveToDistance;
-// import frc.robot.commands.arm.ExtendArm;
-// import frc.robot.commands.arm.RetractArm;
+import frc.robot.commands.arm.ExtendArm;
+import frc.robot.commands.arm.RetractArm;
 import frc.robot.commands.auto.FollowTrajectory;
 import frc.robot.commands.drive.DriveWithJoysticks;
 import frc.robot.subsystems.Arm;
-//import frc.robot.commands.drive.ZeroHeading;
 // import frc.robot.commands.suction.DisableSuction;
 // import frc.robot.commands.suction.EnableSuction;
 //import frc.robot.lib.Utils;
@@ -34,7 +33,7 @@ public class RobotContainer {
   private final SendableChooser<Command> chooser = new SendableChooser<Command>();
   private Swerve m_swerve = new Swerve();
   // private Suction m_suction = new Suction();
-  //eprivate Arm m_arm = new Arm();
+  private Arm m_arm = new Arm();
   
 
   private final CommandXboxController m_driverController = new CommandXboxController(Constants.Controllers.kDriverControllerPort);
@@ -74,7 +73,7 @@ public class RobotContainer {
     // .or(m_operatorController.povDown().whileTrue(new RunCommand(() -> m_arm.move(-0.5), m_arm)))
     // .whileFalse(new RunCommand(() -> m_arm.move(0), m_arm));
     
-    // m_operatorController.a().onTrue(new ExtendArm(0.5), m_arm))
+    //m_operatorController.a().onTrue(m_arm.extended() ? new RetractArm(m_arm) : new ExtendArm(m_arm, 0));
     
   }
 

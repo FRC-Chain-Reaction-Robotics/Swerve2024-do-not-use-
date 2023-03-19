@@ -5,28 +5,25 @@
 
 package frc.robot.commands.arm;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Arm;
 
-public class ExtendArm extends CommandBase {
+public class ExtendArm extends PIDCommand {
     private Arm m_arm;
-    private double m_position;
    /** Creates a new Lower. */
    public ExtendArm(Arm arm, double position) {
      // Use addRequirements() here to declare subsystem dependencies.
+     super(new PIDController(1.5, 0, 0),
+      () -> arm.getExtensionEncoder().getPosition(),
+      position,
+      output -> arm.moveExtensionArm(output),
+      arm
+     );
+
      m_arm = arm;
-     m_position = position;
    }
-
-   // Called when the command is initially scheduled.
-   @Override
-   public void initialize() {
-     m_arm.moveExtensionArm(0.5);
-   }
-
-   // Called every time the scheduler runs while the command is scheduled.
-   @Override
-   public void execute() {}
 
    // Called once the command ends or is interrupted.
    @Override
@@ -38,6 +35,6 @@ public class ExtendArm extends CommandBase {
    // Returns true when the command should end.
    @Override
    public boolean isFinished() {
-     return !(m_arm.getExtensionEncoder().getPosition() < Math.PI * 6);
+     return getController().atSetpoint();
    }
  }

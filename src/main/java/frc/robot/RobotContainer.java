@@ -37,7 +37,7 @@ public class RobotContainer {
   
 
   private final CommandXboxController m_driverController = new CommandXboxController(Constants.Controllers.kDriverControllerPort);
-  private final CommandXboxController m_operatorController = new CommandXboxController(Constants.Controllers.kManipulatorControllerPort);
+  private final CommandXboxController m_operatorController = new CommandXboxController(Constants.Controllers.kOperatorControllerPort);
 
   private final PathPlannerTrajectory simplePath = PathPlanner.loadPath("SimplePath", 1, 1);
   

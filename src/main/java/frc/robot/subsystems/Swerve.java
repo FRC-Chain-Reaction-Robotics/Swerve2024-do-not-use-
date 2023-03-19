@@ -133,6 +133,10 @@ public class Swerve extends SubsystemBase {
      return m_poseEstimator.getEstimatedPosition();
    }
 
+  public NavX getGyro()
+  {
+    return m_gyro;
+  }
   /**
    * Resets the odometry to the specified pose.
    *

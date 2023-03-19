@@ -82,6 +82,16 @@ public class Arm extends SubsystemBase {
         throughBEncoder = new DutyCycleEncoder(0);
     }
 
+    public PIDController getPidController()
+    {
+        return pid;
+    }
+
+    public DutyCycleEncoder getThroughBEncoder()
+    {
+        return throughBEncoder;
+    }
+
     public boolean atSetpoint() {
         return pid.atSetpoint();
     }

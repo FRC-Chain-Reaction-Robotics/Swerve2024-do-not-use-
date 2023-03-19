@@ -22,9 +22,17 @@ import edu.wpi.first.math.util.Units;
 /** Add your docs here. */
 public class Constants {
 
+    public static final class Game
+    {
+        public static final double kBottomRowHeight = Units.inchesToMeters(5);
+        public static final double kMiddleRowHeight = Units.inchesToMeters(34);
+        public static final double kTopRowHeight = Units.inchesToMeters(46);
+
+    }
+
     public static final class Controllers {
         public static final int kDriverControllerPort = 0; 
-        public static final int kManipulatorControllerPort = 1; 
+        public static final int kOperatorControllerPort = 1; 
         public static final double kDeadband = 0.1; 
     }
     
@@ -52,10 +60,13 @@ public class Constants {
         public static final double kWheelBase = Units.inchesToMeters(15.5);
         // Distance between front and back wheels on robot
        
+        //Calculates to approximately 4.47333 meters/sec
         public static final double kMaxSpeedMetersPerSecond = (SwerveModule.kDrivingMotorFreeSpeedRps / 
             SwerveModule.kDrivingMotorReduction) * 
             SwerveModule.kWheelDiameterMeters * 
             Math.PI;
+        
+        //Calculates to Approximately 18.53204 rads/sec (Too much??)
         public static final double kMaxAngularSpeed = kMaxSpeedMetersPerSecond/Math.hypot(kTrackWidth/2.0, kWheelBase/2.0); // radians per second
         
         // Chassis configuration

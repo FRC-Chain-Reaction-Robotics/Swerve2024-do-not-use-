@@ -203,4 +203,10 @@ public class SwerveModule {
   public double getDrivingVelocity(){
     return m_drivingEncoder.getVelocity();
   }
+  
+  public void slowMode()
+  {
+    m_drivingSparkMax.setVoltage(m_drivingSparkMax.getBusVoltage() * 0.3);
+    m_turningSparkMax.setVoltage(m_turningSparkMax.getBusVoltage() * 0.3);
+  }
 }

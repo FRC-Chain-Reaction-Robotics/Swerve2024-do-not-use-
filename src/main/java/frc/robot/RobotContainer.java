@@ -58,7 +58,7 @@ public class RobotContainer {
       new DriveWithJoysticks(
         m_swerve,
         () -> modifyAxis(-m_driverController.getLeftY()),
-        () -> modifyAxis(-m_driverController.getLeftX()),
+        () -> modifyAxis(m_driverController.getLeftX()),
         () -> modifyAxis(-m_driverController.getRightX())
       )
     );
@@ -74,6 +74,7 @@ public class RobotContainer {
     // .whileFalse(new RunCommand(() -> m_arm.move(0), m_arm));
     
     //m_operatorController.a().onTrue(m_arm.extended() ? new RetractArm(m_arm) : new ExtendArm(m_arm, 0));
+    
     
   }
 

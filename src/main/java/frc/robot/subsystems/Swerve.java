@@ -73,6 +73,7 @@ public class Swerve extends SubsystemBase {
       new Pose2d());
 
   private final Field2d m_fieldSim = new Field2d();
+  
 
   public Swerve() {
     // m_photonCamera = new PhotonCameraWrapper(
@@ -137,6 +138,14 @@ public class Swerve extends SubsystemBase {
   {
     return m_gyro;
   }
+
+  public void slowMode()
+  {
+    m_frontLeft.slowMode();
+    m_frontRight.slowMode();
+    m_rearLeft.slowMode();
+    m_rearRight.slowMode();
+  }
   /**
    * Resets the odometry to the specified pose.
    *
@@ -185,10 +194,10 @@ public class Swerve extends SubsystemBase {
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.Swerve.kMaxSpeedMetersPerSecond);
-    m_frontLeft.setDesiredState(swerveModuleStates[0]);
-    m_frontRight.setDesiredState(swerveModuleStates[1]);
-    m_rearLeft.setDesiredState(swerveModuleStates[2]);
-    m_rearRight.setDesiredState(swerveModuleStates[3]);
+    m_frontLeft.setDesiredState(swerveModuleStates[2]);
+    m_frontRight.setDesiredState(swerveModuleStates[3]);
+    m_rearLeft.setDesiredState(swerveModuleStates[0]);
+    m_rearRight.setDesiredState(swerveModuleStates[1]);
   }
 
   public double getDistanceMeters()

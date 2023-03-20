@@ -1,5 +1,6 @@
 package frc.robot.commands.arm;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
@@ -22,13 +23,13 @@ public class MoveToGoal extends PIDCommand{
         switch (row)
         {
             case BOTTOM:
-                m_setpoint = () -> Math.asin(Constants.Game.kBottomRowHeight/Constants.Arm.kArmlength);
+                m_setpoint = () -> Units.radiansToRotations(Math.asin(Constants.Game.kBottomRowHeight/Constants.Arm.kArmlength));
                 break;
             case MIDDLE:
-                m_setpoint = () -> Math.asin(Constants.Game.kMiddleRowHeight/Constants.Arm.kArmlength);
+                m_setpoint = () -> Units.radiansToRotations(Math.asin(Constants.Game.kMiddleRowHeight/Constants.Arm.kArmlength));
                 break;
             case TOP:
-                m_setpoint = () -> Math.asin(Constants.Game.kTopRowHeight/Constants.Arm.kArmlength);
+                m_setpoint = () -> Units.radiansToRotations(Math.asin(Constants.Game.kTopRowHeight/Constants.Arm.kArmlength));
                 break;
         }
 

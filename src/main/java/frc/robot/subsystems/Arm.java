@@ -80,6 +80,7 @@ public class Arm extends SubsystemBase {
         leftPIDController.setFF(0.1);
        
         throughBEncoder = new DutyCycleEncoder(0);
+        
     }
 
     public PIDController getPidController()

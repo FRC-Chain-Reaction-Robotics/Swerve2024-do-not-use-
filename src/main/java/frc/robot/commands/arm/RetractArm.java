@@ -6,6 +6,7 @@
  package frc.robot.commands.arm;
 
  import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.subsystems.Arm;
@@ -14,13 +15,14 @@ public class RetractArm extends PIDCommand {
    private Arm m_arm;
    /** Creates a new Lower. */
    public RetractArm(Arm arm) {
-     // Use addRequirements() here to declare subsystem dependencies.
      super(new PIDController(1.5, 0, 0),
       () -> arm.getExtensionEncoder().getPosition(),
       0,
-      output -> arm.moveExtensionArm(-output),
+      output -> arm.moveExtensionArm(output),
       arm
      );
+
+     getController().setTolerance(Units.inchesToMeters(3));
 
      m_arm = arm;
      

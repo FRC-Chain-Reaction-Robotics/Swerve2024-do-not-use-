@@ -163,9 +163,9 @@ public class Constants {
         public static final int kTurningMotorCurrentLimit = 20; // amps
       }
 
-      //public static final class Intake {
-
-      //}
+      public static final class Intake {
+        public static final int kIntakeMotorId = 12;
+      }
 
 
     // public static final class Suction {

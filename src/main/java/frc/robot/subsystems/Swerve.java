@@ -74,6 +74,8 @@ public class Swerve extends SubsystemBase {
 
   private final Field2d m_fieldSim = new Field2d();
   
+  public static final double output = 1;
+  public double m_output = output;
 
   public Swerve() {
     // m_photonCamera = new PhotonCameraWrapper(
@@ -141,11 +143,24 @@ public class Swerve extends SubsystemBase {
 
   public void slowMode()
   {
-    m_frontLeft.slowMode();
-    m_frontRight.slowMode();
-    m_rearLeft.slowMode();
-    m_rearRight.slowMode();
+    m_frontLeft.evilMode();
+    m_frontRight.evilMode();
+    m_rearLeft.evilMode();
+    m_rearRight.evilMode();
+
+		m_output = 0.3;
   }
+
+  public void normalMode()
+  {
+    m_frontLeft.goodMode();
+    m_frontRight.goodMode();
+    m_rearLeft.goodMode();
+    m_rearRight.goodMode();
+
+		m_output = output;
+  }
+
   /**
    * Resets the odometry to the specified pose.
    *
@@ -180,12 +195,17 @@ public class Swerve extends SubsystemBase {
     // ySpeed *= Constants.Swerve.kMaxSpeedMetersPerSecond;
     // rot *= Constants.Swerve.kMaxAngularSpeed;
 
-    double deadband = 4.4733 / 10;
-    xSpeed = deadBand(xSpeed, deadband);
-    ySpeed = deadBand(ySpeed, deadband);
+    xSpeed *= m_output;
+    ySpeed *= m_output;
+    rot *= m_output;
+
+
+    // double deadband = 4.4733 / 10;
+    // xSpeed = deadBand(xSpeed, deadband);
+    // ySpeed = deadBand(ySpeed, deadband);
     
-    double deadbandRot = 2 * Math.PI / 9.45;
-    rot = deadBand(rot, deadbandRot);
+    // double deadbandRot = 2 * Math.PI / 9.45;
+    // rot = deadBand(rot, deadbandRot);
 
 
     var swerveModuleStates = Constants.Swerve.kDriveKinematics.toSwerveModuleStates(

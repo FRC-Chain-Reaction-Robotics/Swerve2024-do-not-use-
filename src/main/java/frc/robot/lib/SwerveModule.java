@@ -204,9 +204,15 @@ public class SwerveModule {
     return m_drivingEncoder.getVelocity();
   }
   
-  public void slowMode()
+  public void evilMode()
   {
-    m_drivingSparkMax.setVoltage(m_drivingSparkMax.getBusVoltage() * 0.3);
-    m_turningSparkMax.setVoltage(m_turningSparkMax.getBusVoltage() * 0.3);
+    m_drivingSparkMax.setSmartCurrentLimit(Constants.SwerveModule.kDrivingMotorCurrentLimit + 10);
+    m_turningSparkMax.setSmartCurrentLimit(Constants.SwerveModule.kTurningMotorCurrentLimit + 10);
+  }
+
+  public void goodMode()
+  {
+    m_drivingSparkMax.setSmartCurrentLimit(Constants.SwerveModule.kDrivingMotorCurrentLimit);
+    m_turningSparkMax.setSmartCurrentLimit(Constants.SwerveModule.kTurningMotorCurrentLimit);
   }
 }

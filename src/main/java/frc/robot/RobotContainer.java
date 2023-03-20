@@ -74,7 +74,8 @@ public class RobotContainer {
     // .whileFalse(new RunCommand(() -> m_arm.move(0), m_arm));
     
     //m_operatorController.a().onTrue(m_arm.extended() ? new RetractArm(m_arm) : new ExtendArm(m_arm, 0));
-    m_driverController.leftBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve));
+    m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve))
+    .onFalse(new InstantCommand(() -> m_swerve.normalMode(), m_swerve));
     
   }
 

@@ -75,6 +75,7 @@ public class RobotContainer {
     
     //m_operatorController.a().onTrue(m_arm.extended() ? new RetractArm(m_arm) : new ExtendArm(m_arm, 0));
     m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve))
+    .or(m_driverController.leftBumper().onTrue(new InstantCommand(() -> m_swerve.mediumMode(), m_swerve)))
     .onFalse(new InstantCommand(() -> m_swerve.normalMode(), m_swerve));
     
   }
@@ -91,7 +92,7 @@ public class RobotContainer {
 
   private static double modifyAxis(double value)
   {
-    value = deadBand(value, 0.075);
+    value = deadBand(value, 0.1);
 
     value = value * value * value;
 

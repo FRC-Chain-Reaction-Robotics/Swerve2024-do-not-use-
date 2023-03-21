@@ -55,9 +55,9 @@ public class Constants {
     public static final class Swerve {
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
-        public static final double kTrackWidth = Units.inchesToMeters(11);
+        public static final double kTrackWidth = Units.inchesToMeters(13.3);
         // Distance between centers of right and left wheels on robot
-        public static final double kWheelBase = Units.inchesToMeters(15.5);
+        public static final double kWheelBase = Units.inchesToMeters(23.5);
         // Distance between front and back wheels on robot
        
         //Calculates to approximately 4.47596143982 meters/sec
@@ -103,7 +103,7 @@ public class Constants {
         public static final int kBackRightDrivingCanId = 7;
         public static final int kBackRightTurningCanId = 3;
         public static final int kBackRightCanCoderId = 62;
-        public static final double kBackRightChassisAngularOffset = Math.toRadians(0);
+        public static final double kBackRightChassisAngularOffset = Math.toRadians(340.928);
 
         public static final boolean kGyroReversed = false;
       }
@@ -159,8 +159,8 @@ public class Constants {
         public static final double kTurningMinOutput = -1;
         public static final double kTurningMaxOutput = 1;
     
-        public static final IdleMode kDrivingMotorIdleMode = IdleMode.kCoast;
-        public static final IdleMode kTurningMotorIdleMode = IdleMode.kCoast;
+        public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
+        public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
     
         public static final int kDrivingMotorCurrentLimit = 50; // amps
         public static final int kTurningMotorCurrentLimit = 20; // amps

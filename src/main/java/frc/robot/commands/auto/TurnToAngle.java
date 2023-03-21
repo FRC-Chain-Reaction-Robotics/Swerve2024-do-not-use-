@@ -14,7 +14,7 @@ public class TurnToAngle extends PIDCommand{
             new PIDController(Constants.SwerveModule.kTurningP, Constants.SwerveModule.kTurningI, Constants.SwerveModule.kTurningD),
             m_swerve::getHeading,
             angle,
-            output -> m_swerve.drive(0, 0, output, false),
+            output -> m_swerve.drive(0, 0, output, true),
             m_swerve
         );
 
@@ -31,6 +31,6 @@ public class TurnToAngle extends PIDCommand{
     
     @Override
     public void end(boolean interrupted) {
-        m_swerve.drive(0, 0, 0, false);
+        m_swerve.drive(0, 0, 0, true);
     }
 }

@@ -108,8 +108,9 @@ public class Swerve extends SubsystemBase {
     SmartDashboard.putNumber("RearLeft SteeringAbsolutePosition", m_rearLeft.getSteeringAbsolutePosition());
     SmartDashboard.putNumber("Drive/Swerve/RearRight/SteeringRelativePosition", m_rearRight.getSteeringRelativePosition());
     SmartDashboard.putNumber("RearRight SteeringAbsolutePosition", m_rearRight.getSteeringAbsolutePosition());
-    SmartDashboard.putNumber("Drive/NavX/Angle", m_gyro.getAngle());
-    SmartDashboard.putNumber("Drive/NavX/Yaw", m_gyro.getYaw());
+    SmartDashboard.putNumber("Drive NavX Angle", m_gyro.getAngle());
+    SmartDashboard.putNumber("Drive NavX Yaw", m_gyro.getYaw());
+    SmartDashboard.putNumber("Drive NavX Pitch", m_gyro.getPitch());
     SmartDashboard.putNumber("Front Left Relative Position", m_frontLeft.getDrivingRelativePosition());
     SmartDashboard.putNumber("Front Left Velocity", m_frontLeft.getDrivingVelocity());
   }
@@ -154,7 +155,17 @@ public class Swerve extends SubsystemBase {
     m_rearLeft.evilMode();
     m_rearRight.evilMode();
 
-		m_output = 0.3;
+		m_output = 0.2;
+  }
+
+  public void mediumMode()
+  {
+    m_frontLeft.evilMode();
+    m_frontRight.evilMode();
+    m_rearLeft.evilMode();
+    m_rearRight.evilMode();
+
+		m_output = 0.5;
   }
 
   public void normalMode()

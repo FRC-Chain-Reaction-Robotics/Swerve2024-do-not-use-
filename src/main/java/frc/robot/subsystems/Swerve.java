@@ -200,12 +200,12 @@ public class Swerve extends SubsystemBase {
     rot *= m_output;
 
 
-    // double deadband = 4.4733 / 10;
-    // xSpeed = deadBand(xSpeed, deadband);
-    // ySpeed = deadBand(ySpeed, deadband);
+    double deadband = 4.4733 / 10;
+    xSpeed = deadBand(xSpeed, deadband);
+    ySpeed = deadBand(ySpeed, deadband);
     
-    // double deadbandRot = 2 * Math.PI / 9.45;
-    // rot = deadBand(rot, deadbandRot);
+    double deadbandRot = 2 * Math.PI / 9.45;
+    rot = deadBand(rot, deadbandRot);
 
 
     var swerveModuleStates = Constants.Swerve.kDriveKinematics.toSwerveModuleStates(

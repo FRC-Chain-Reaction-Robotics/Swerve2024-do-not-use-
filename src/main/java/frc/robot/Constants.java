@@ -37,8 +37,8 @@ public class Constants {
     }
     
     public static final class Arm {
-        public static final double kArmlength = Units.inchesToMeters(20);
-        public static final double kArmReduction = 1;
+        public static final double kArmlength = Units.inchesToMeters(20); // CHANGE THIS
+        public static final double kArmReduction = 1; //CHANGE THIS
         public static final double kArmEncoderPositionFactor = (2 * Math.PI * Constants.Arm.kArmlength)/Constants.Arm.kArmReduction;
         public static final double kArmEncoderVelocityFactor = kArmEncoderPositionFactor/60.0;
 

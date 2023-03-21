@@ -54,7 +54,7 @@ public class Arm extends SubsystemBase {
         rightMotor.setIdleMode(IdleMode.kBrake);
         extensionMotor.setIdleMode(IdleMode.kBrake);
         
-        leftMotor.setSmartCurrentLimit(20, 20);
+        leftMotor.setSmartCurrentLimit(20, 20); // CHANGE THIS
         rightMotor.setSmartCurrentLimit(20, 20);
         extensionMotor.setSmartCurrentLimit(20, 20);
         

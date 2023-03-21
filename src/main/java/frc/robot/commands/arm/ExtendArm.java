@@ -15,7 +15,7 @@ public class ExtendArm extends PIDCommand {
    /** Creates a new Lower. */
    public ExtendArm(Arm arm, double position) {
      // Use addRequirements() here to declare subsystem dependencies.
-     super(new PIDController(1.5, 0, 0),
+     super(new PIDController(3, 0, 1.5),
       () -> arm.getExtensionEncoder().getPosition(),
       position,
       output -> arm.moveExtensionArm(output),

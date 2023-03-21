@@ -28,7 +28,7 @@ public class Arm extends SubsystemBase {
 
     private DutyCycleEncoder throughBEncoder;
 
-    private final PIDController pid = new PIDController(0.1, 0, 0);
+    private final PIDController pid = new PIDController(3, 0, 0);
     private boolean extended = false;
 
     public Arm() {

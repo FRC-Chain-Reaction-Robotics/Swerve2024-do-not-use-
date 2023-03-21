@@ -14,6 +14,7 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -75,7 +76,12 @@ public class Swerve extends SubsystemBase {
   private final Field2d m_fieldSim = new Field2d();
   
   public static final double output = 1;
-  public double m_output = output;
+
+  public static double m_output = output;
+
+  public SlewRateLimiter xLimiter = new SlewRateLimiter(Constants.Swerve.kMaxAccel);
+  public SlewRateLimiter yLimiter = new SlewRateLimiter(Constants.Swerve.kMaxAccel);
+  public SlewRateLimiter rotLimiter = new SlewRateLimiter(Constants.Swerve.kMaxAngularAccel);
 
   public Swerve() {
     // m_photonCamera = new PhotonCameraWrapper(
@@ -200,13 +206,16 @@ public class Swerve extends SubsystemBase {
     rot *= m_output;
 
 
-    double deadband = 4.4733 / 10;
+    double deadband = 4.47596143982 / 10;
     xSpeed = deadBand(xSpeed, deadband);
     ySpeed = deadBand(ySpeed, deadband);
     
     double deadbandRot = 2 * Math.PI / 9.45;
     rot = deadBand(rot, deadbandRot);
 
+    xSpeed = xLimiter.calculate(xSpeed);
+    ySpeed = yLimiter.calculate(ySpeed);
+    rot = rotLimiter.calculate(rot);
 
     var swerveModuleStates = Constants.Swerve.kDriveKinematics.toSwerveModuleStates(
         fieldRelative

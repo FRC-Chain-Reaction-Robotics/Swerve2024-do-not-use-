@@ -15,7 +15,7 @@ public class RetractArm extends PIDCommand {
    private Arm m_arm;
    /** Creates a new Lower. */
    public RetractArm(Arm arm) {
-     super(new PIDController(1.5, 0, 0),
+     super(new PIDController(3, 0, 1.5),
       () -> arm.getExtensionEncoder().getPosition(),
       0,
       output -> arm.moveExtensionArm(output),

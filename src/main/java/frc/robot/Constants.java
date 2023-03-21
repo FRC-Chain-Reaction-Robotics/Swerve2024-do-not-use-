@@ -60,15 +60,18 @@ public class Constants {
         public static final double kWheelBase = Units.inchesToMeters(15.5);
         // Distance between front and back wheels on robot
        
-        //Calculates to approximately 4.47333 meters/sec
+        //Calculates to approximately 4.47596143982 meters/sec
         public static final double kMaxSpeedMetersPerSecond = (SwerveModule.kDrivingMotorFreeSpeedRps / 
             SwerveModule.kDrivingMotorReduction) * 
             SwerveModule.kWheelDiameterMeters * 
             Math.PI;
         
-        //Calculates to Approximately 18.53204 rads/sec (Too much??)
+        //Calculates to Approximately 18.5429440372 rads/sec (Too much??)
         public static final double kMaxAngularSpeed = kMaxSpeedMetersPerSecond/Math.hypot(kTrackWidth/2.0, kWheelBase/2.0); // radians per second
         
+        public static final double kMaxAccel = kMaxSpeedMetersPerSecond * 2;
+
+        public static final double kMaxAngularAccel = kMaxAccel/Math.hypot(kTrackWidth/2.0, kWheelBase/2.0);
         // Chassis configuration
         
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(

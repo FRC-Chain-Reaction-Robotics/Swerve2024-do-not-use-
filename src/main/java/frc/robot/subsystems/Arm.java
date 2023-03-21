@@ -78,6 +78,16 @@ public class Arm extends SubsystemBase {
         leftPIDController.setI(0);
         leftPIDController.setD(0);
         leftPIDController.setFF(0.1);
+
+        rightPIDController.setP(2.4);
+        rightPIDController.setI(0);
+        rightPIDController.setD(0);
+        rightPIDController.setFF(0.1);
+
+        extensionPIDController.setP(3);
+        extensionPIDController.setI(0);
+        extensionPIDController.setD(1.5);
+        //extensionPIDController.setFF(0.1);
        
         throughBEncoder = new DutyCycleEncoder(0);
         

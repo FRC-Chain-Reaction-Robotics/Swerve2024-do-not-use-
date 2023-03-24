@@ -16,11 +16,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.auto.DriveToDistance;
-import frc.robot.commands.arm.ExtendArm;
-import frc.robot.commands.arm.RetractArm;
 import frc.robot.commands.auto.FollowTrajectory;
+import frc.robot.commands.auto.MoveToChargeStation;
 import frc.robot.commands.drive.DriveWithJoysticks;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Intake;
 // import frc.robot.commands.suction.DisableSuction;
 // import frc.robot.commands.suction.EnableSuction;
 //import frc.robot.lib.Utils;
@@ -34,6 +34,7 @@ public class RobotContainer {
   private Swerve m_swerve = new Swerve();
   // private Suction m_suction = new Suction();
   private Arm m_arm = new Arm();
+  private Intake m_intake = new Intake();
   
 
   private final CommandXboxController m_driverController = new CommandXboxController(Constants.Controllers.kDriverControllerPort);
@@ -42,7 +43,6 @@ public class RobotContainer {
   private final PathPlannerTrajectory simplePath = PathPlanner.loadPath("SimplePath", 1, 1);
   
   public RobotContainer() {
-    //m_elevator.setDefaultCommand(new RunCommand(() -> m_elevator.motorsOff(), m_elevator));
     setupDrive(); 
     configureButtonBindings();
     
@@ -50,6 +50,7 @@ public class RobotContainer {
     chooser.setDefaultOption("PathPlanner Command", new FollowTrajectory(simplePath, true, m_swerve));
     //chooser.addOption("Turn To Angle", new TurnToAngle(90, dt));
     chooser.addOption("Drive To Distance", new DriveToDistance(Units.feetToMeters(7), m_swerve));
+    chooser.addOption("Move to Charge Station", new MoveToChargeStation(m_swerve));
     SmartDashboard.putData(chooser);
   }
 
@@ -74,9 +75,16 @@ public class RobotContainer {
     // .whileFalse(new RunCommand(() -> m_arm.move(0), m_arm));
     
     //m_operatorController.a().onTrue(m_arm.extended() ? new RetractArm(m_arm) : new ExtendArm(m_arm, 0));
+    
+    //slow mode for right bumper, medium slow for left bumper
     m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve))
     .or(m_driverController.leftBumper().onTrue(new InstantCommand(() -> m_swerve.mediumMode(), m_swerve)))
     .onFalse(new InstantCommand(() -> m_swerve.normalMode(), m_swerve));
+
+    //Intake Button
+    m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> m_intake.On(), m_intake))
+    .or(m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.Reverse(), m_intake)))
+    .onFalse(new RunCommand(() -> m_intake.Off(), m_intake));
     
   }
 

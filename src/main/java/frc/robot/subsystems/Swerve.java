@@ -217,7 +217,7 @@ public class Swerve extends SubsystemBase {
     rot *= m_output;
 
 
-    double deadband = 4.47596143982 / 10;
+    double deadband = Constants.Swerve.kMaxSpeedMetersPerSecond / 10;
     xSpeed = deadBand(xSpeed, deadband);
     ySpeed = deadBand(ySpeed, deadband);
     

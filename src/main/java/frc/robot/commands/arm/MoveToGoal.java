@@ -14,9 +14,9 @@ public class MoveToGoal extends PIDCommand{
     public MoveToGoal(Arm m_arm, Row row) {
         super(
             m_arm.getPidController(), 
-            () -> m_arm.getThroughBEncoder().getAbsolutePosition(), 
+            () -> m_arm.getLiftThroughBEncoder().getPosition(), 
             0, 
-            output -> m_arm.move(output), 
+            output -> m_arm.moveShoulder(output), 
             m_arm
         );
 
@@ -40,7 +40,7 @@ public class MoveToGoal extends PIDCommand{
     @Override
     public void end(boolean interrupted)
     {
-        m_arm.move(0);
+        m_arm.moveShoulder(0);
     }
 
     @Override

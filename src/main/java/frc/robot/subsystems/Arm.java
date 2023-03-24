@@ -1,10 +1,12 @@
 package frc.robot.subsystems;
 
+import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.SparkMaxAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycle;
@@ -18,15 +20,13 @@ public class Arm extends SubsystemBase {
     private CANSparkMax leftMotor;
     private CANSparkMax extensionMotor;
     
-    private RelativeEncoder rightEncoder;
     private RelativeEncoder leftEncoder;
     private RelativeEncoder extensionEncoder;
 
     private SparkMaxPIDController leftPIDController;
-    private SparkMaxPIDController rightPIDController;
     private SparkMaxPIDController extensionPIDController;
 
-    private DutyCycleEncoder throughBEncoder;
+    private AbsoluteEncoder liftThroughBEncoder;
 
     private final PIDController pid = new PIDController(3, 0, 0);
     private boolean extended = false;
@@ -34,6 +34,8 @@ public class Arm extends SubsystemBase {
     public Arm() {
         rightMotor = new CANSparkMax(Constants.Arm.kRightMotorId, MotorType.kBrushless);
         leftMotor = new CANSparkMax(Constants.Arm.kLeftMotorId, MotorType.kBrushless);
+        rightMotor.follow(leftMotor, false || true || false);
+
         extensionMotor = new CANSparkMax(Constants.Arm.kExtensionMotorId, MotorType.kBrushless);
         
         //rightMotor.follow(leftMotor, false);
@@ -42,12 +44,7 @@ public class Arm extends SubsystemBase {
         rightMotor.restoreFactoryDefaults();
         extensionMotor.restoreFactoryDefaults();
 
-        leftMotor.burnFlash();
-        rightMotor.burnFlash();
-        extensionMotor.burnFlash();
-
-        leftMotor.setInverted(true);
-        rightMotor.setInverted(false);
+        leftMotor.setInverted(true);;
         extensionMotor.setInverted(false);
         
         leftMotor.setIdleMode(IdleMode.kBrake);
@@ -58,20 +55,16 @@ public class Arm extends SubsystemBase {
         rightMotor.setSmartCurrentLimit(20, 20);
         extensionMotor.setSmartCurrentLimit(20, 20);
         
-        rightEncoder = rightMotor.getEncoder();
         leftEncoder = leftMotor.getEncoder();
         extensionEncoder = extensionMotor.getEncoder();
         
         leftEncoder.setPositionConversionFactor(Constants.Arm.kArmEncoderPositionFactor);
-        rightEncoder.setPositionConversionFactor(Constants.Arm.kArmEncoderPositionFactor);
         extensionEncoder.setPositionConversionFactor(Constants.Arm.kArmEncoderPositionFactor);
 
         leftEncoder.setVelocityConversionFactor(Constants.Arm.kArmEncoderVelocityFactor);
-        rightEncoder.setVelocityConversionFactor(Constants.Arm.kArmEncoderVelocityFactor);
         extensionEncoder.setVelocityConversionFactor(Constants.Arm.kArmEncoderVelocityFactor);
 
         leftPIDController = leftMotor.getPIDController();
-        rightPIDController = rightMotor.getPIDController();
         extensionPIDController = extensionMotor.getPIDController();
 
         leftPIDController.setP(2.4);
@@ -79,18 +72,16 @@ public class Arm extends SubsystemBase {
         leftPIDController.setD(0);
         leftPIDController.setFF(0.1);
 
-        rightPIDController.setP(2.4);
-        rightPIDController.setI(0);
-        rightPIDController.setD(0);
-        rightPIDController.setFF(0.1);
-
         extensionPIDController.setP(3);
         extensionPIDController.setI(0);
         extensionPIDController.setD(1.5);
         //extensionPIDController.setFF(0.1);
        
-        throughBEncoder = new DutyCycleEncoder(0);
+        liftThroughBEncoder = leftMotor.getAbsoluteEncoder(Type.kDutyCycle);  //  TODO: what?? doesn't this need 4 dio ports        
         
+        leftMotor.burnFlash();
+        rightMotor.burnFlash();
+        extensionMotor.burnFlash();
     }
 
     public PIDController getPidController()
@@ -98,9 +89,9 @@ public class Arm extends SubsystemBase {
         return pid;
     }
 
-    public DutyCycleEncoder getThroughBEncoder()
+    public AbsoluteEncoder getLiftThroughBEncoder()
     {
-        return throughBEncoder;
+        return liftThroughBEncoder;
     }
 
     public boolean atSetpoint() {
@@ -110,11 +101,11 @@ public class Arm extends SubsystemBase {
     @Override
 
     public void periodic() {
-        SmartDashboard.putNumber("Through Bore Encoder Value", throughBEncoder.getAbsolutePosition());
+        SmartDashboard.putNumber("Lift Through Bore Encoder Value", liftThroughBEncoder.getPosition());
         SmartDashboard.putNumber("Extension Motor Position", extensionEncoder.getPosition());
     }
 
-    public void move(double speed) {
+    public void moveShoulder(double speed) {
         leftMotor.set(speed);
         rightMotor.set(speed);     
     }

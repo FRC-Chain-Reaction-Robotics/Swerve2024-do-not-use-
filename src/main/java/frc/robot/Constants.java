@@ -39,7 +39,7 @@ public class Constants {
     public static final class Arm {
         public static final double kArmlength = Units.inchesToMeters(20); // CHANGE THIS
         public static final double kArmReduction = 1; //CHANGE THIS
-        public static final double kArmEncoderPositionFactor = (2 * Math.PI * Constants.Arm.kArmlength)/Constants.Arm.kArmReduction;
+        public static final double kArmEncoderPositionFactor = (2 * Math.PI)/Constants.Arm.kArmReduction;
         public static final double kArmEncoderVelocityFactor = kArmEncoderPositionFactor/60.0;
 
         public static final int kRightMotorId = 9;
@@ -55,8 +55,10 @@ public class Constants {
     public static final class Swerve {
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
+        // measured 3/21/23
         public static final double kTrackWidth = Units.inchesToMeters(13.3);
         // Distance between centers of right and left wheels on robot
+        // measured 3/21/23
         public static final double kWheelBase = Units.inchesToMeters(23.5);
         // Distance between front and back wheels on robot
        

@@ -5,15 +5,15 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
 
-   private TalonSRX intakeMotor = new TalonSRX(Constants.Intake.kIntakeMotorId);
+   private WPI_TalonSRX intakeMotor = new WPI_TalonSRX(Constants.Intake.kIntakeMotorId);
    
    public Intake() 
    {
@@ -22,12 +22,17 @@ public class Intake extends SubsystemBase {
 
    public void On()
    {
-        intakeMotor.set(ControlMode.Velocity, 1);
+        intakeMotor.set(1);
    }
 
-   public void off()
+   public void Off()
    {
-        intakeMotor.set(ControlMode.Velocity, 0);
+        intakeMotor.set(0);
+   }
+
+   public void Reverse()
+   {
+        intakeMotor.set(-1);
    }
 
    @Override

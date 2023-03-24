@@ -204,7 +204,7 @@ public class SwerveModule {
     return m_drivingEncoder.getVelocity();
   }
   
-  public void evilMode()
+  public void evilMode() //Typhoon Reference :)
   {
     m_drivingSparkMax.setSmartCurrentLimit(Constants.SwerveModule.kDrivingMotorCurrentLimit + 20);
     m_turningSparkMax.setSmartCurrentLimit(Constants.SwerveModule.kTurningMotorCurrentLimit + 20);

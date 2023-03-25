@@ -46,6 +46,7 @@ public class Constants {
         public static final int kRightMotorId = 9;
         public static final int kLeftMotorId = 6;
         public static final int kExtensionMotorId = 11;
+        public static final double armEncoderOffset = .225;
     }
 
     public static final class Clamps {

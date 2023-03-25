@@ -22,6 +22,7 @@ public class Intake extends SubsystemBase {
 
    public void On()
    {
+        intakeMotor.setInverted(false);
         intakeMotor.set(1);
    }
 
@@ -32,7 +33,8 @@ public class Intake extends SubsystemBase {
 
    public void Reverse()
    {
-        intakeMotor.set(-1);
+        intakeMotor.setInverted(true);
+        intakeMotor.set(1);
    }
 
    @Override

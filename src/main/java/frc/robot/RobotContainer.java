@@ -75,14 +75,14 @@ public class RobotContainer {
     m_operatorController.povUp().whileTrue(new RunCommand(() -> m_arm.moveShoulder(0.5), m_arm))
     .or(m_operatorController.povDown().whileTrue(new RunCommand(() -> m_arm.moveShoulder(-0.5), m_arm)))
     .whileFalse(new RunCommand(() -> m_arm.moveShoulder(0), m_arm));
-    
-    m_operatorController.a().onTrue(new MoveToGoal(m_arm, Row.BOTTOM))
-    .or(m_operatorController.b().onTrue(new MoveToGoal(m_arm, Row.MIDDLE)))
-    .or(m_operatorController.y().onTrue(new MoveToGoal(m_arm, Row.TOP)));
+    //TODO: Fix Arm Angle Offsets in Arm.java first before uncommenting
+    // m_operatorController.a().onTrue(new MoveToGoal(m_arm, Row.BOTTOM))
+    // .or(m_operatorController.b().onTrue(new MoveToGoal(m_arm, Row.MIDDLE)))
+    // .or(m_operatorController.y().onTrue(new MoveToGoal(m_arm, Row.TOP)));
     
     //slow mode for right bumper, medium slow for left bumper
     //We added a "this." to this line
-    this.m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve))
+    m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve))
     .or(m_driverController.leftBumper().onTrue(new InstantCommand(() -> m_swerve.mediumMode(), m_swerve)))
     .onFalse(new InstantCommand(() -> m_swerve.normalMode(), m_swerve));
 

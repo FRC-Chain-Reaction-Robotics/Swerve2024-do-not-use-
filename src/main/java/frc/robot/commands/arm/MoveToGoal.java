@@ -21,15 +21,16 @@ public class MoveToGoal extends PIDCommand{
         );
 
         switch (row)
+        //Tune setpoints manually
         {
             case BOTTOM:
-                m_setpoint = () -> Units.radiansToRotations(Math.asin(Constants.Game.kBottomRowHeight/Constants.Arm.kArmlength));
+                m_setpoint = () -> Units.radiansToRotations(Math.asin(Constants.Game.kBottomRowHeight/Constants.Arm.kArmlength))+Constants.Arm.armEncoderOffset;
                 break;
             case MIDDLE:
-                m_setpoint = () -> Units.radiansToRotations(Math.asin(Constants.Game.kMiddleRowHeight/Constants.Arm.kArmlength));
+                m_setpoint = () -> Units.radiansToRotations(Math.asin(Constants.Game.kMiddleRowHeight/Constants.Arm.kArmlength))+Constants.Arm.armEncoderOffset;
                 break;
             case TOP:
-                m_setpoint = () -> Units.radiansToRotations(Math.asin(Constants.Game.kTopRowHeight/Constants.Arm.kArmlength));
+                m_setpoint = () -> Units.radiansToRotations(Math.asin(Constants.Game.kTopRowHeight/Constants.Arm.kArmlength))+Constants.Arm.armEncoderOffset;
                 break;
         }
 

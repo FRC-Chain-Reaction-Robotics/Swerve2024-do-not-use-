@@ -70,9 +70,11 @@ public class RobotContainer {
     m_driverController.y().onTrue(new InstantCommand(() -> m_swerve.zeroHeading(), m_swerve));
    
     //Arm
-    // m_operatorController.povUp().whileTrue(new RunCommand(() -> m_arm.move(0.5), m_arm))
-    // .or(m_operatorController.povDown().whileTrue(new RunCommand(() -> m_arm.move(-0.5), m_arm)))
-    // .whileFalse(new RunCommand(() -> m_arm.move(0), m_arm));
+    m_operatorController.povUp().whileTrue(new RunCommand(() -> m_arm.moveShoulder(0.5), m_arm))
+    .or(m_operatorController.povDown().whileTrue(new RunCommand(() -> m_arm.moveShoulder(-0.5), m_arm)))
+    .whileFalse(new RunCommand(() -> m_arm.moveShoulder(0), m_arm));
+
+    m_operatorController.
     
     //m_operatorController.a().onTrue(m_arm.extended() ? new RetractArm(m_arm) : new ExtendArm(m_arm, 0));
     

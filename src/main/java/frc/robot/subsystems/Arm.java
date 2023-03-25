@@ -29,12 +29,11 @@ public class Arm extends SubsystemBase {
     private AbsoluteEncoder liftThroughBEncoder;
 
     private final PIDController pid = new PIDController(3, 0, 0);
-    private boolean extended = false;
 
     public Arm() {
         rightMotor = new CANSparkMax(Constants.Arm.kRightMotorId, MotorType.kBrushless);
         leftMotor = new CANSparkMax(Constants.Arm.kLeftMotorId, MotorType.kBrushless);
-        rightMotor.follow(leftMotor, false || true || false);
+        rightMotor.follow(leftMotor, true);
 
         extensionMotor = new CANSparkMax(Constants.Arm.kExtensionMotorId, MotorType.kBrushless);
         
@@ -44,7 +43,7 @@ public class Arm extends SubsystemBase {
         rightMotor.restoreFactoryDefaults();
         extensionMotor.restoreFactoryDefaults();
 
-        leftMotor.setInverted(true);;
+        leftMotor.setInverted(true);
         extensionMotor.setInverted(false);
         
         leftMotor.setIdleMode(IdleMode.kBrake);
@@ -109,29 +108,11 @@ public class Arm extends SubsystemBase {
         leftMotor.set(speed);
         rightMotor.set(speed);     
     }
-/** 
-    public void toggle() {
-        if (extensionEncoder.getPosition() > -0.1 && extensionEncoder.getPosition() < 0.1) {
-            while (extensionEncoder.getPosition() < 6 * Math.PI)
-            {
-                moveExtensionArm(0.5);
-            }
-        }
-    }
-*/
+
     public void moveExtensionArm(double speed) {
         extensionMotor.set(speed);
     }
     
-    public void setExtendedBoolean(boolean extended)
-    {
-        this.extended = extended;
-    }
-
-    public boolean extended()
-    {
-        return extended;
-    }
 
     public RelativeEncoder getExtensionEncoder()
     {

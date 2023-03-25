@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.commands.arm.MoveToGoal;
+import frc.robot.commands.arm.MoveToGoal.Row;
 import frc.robot.commands.auto.DriveToDistance;
 import frc.robot.commands.auto.FollowTrajectory;
 import frc.robot.commands.auto.MoveToChargeStation;
@@ -73,13 +75,14 @@ public class RobotContainer {
     m_operatorController.povUp().whileTrue(new RunCommand(() -> m_arm.moveShoulder(0.5), m_arm))
     .or(m_operatorController.povDown().whileTrue(new RunCommand(() -> m_arm.moveShoulder(-0.5), m_arm)))
     .whileFalse(new RunCommand(() -> m_arm.moveShoulder(0), m_arm));
-
-    m_operatorController.
     
-    //m_operatorController.a().onTrue(m_arm.extended() ? new RetractArm(m_arm) : new ExtendArm(m_arm, 0));
+    m_operatorController.a().onTrue(new MoveToGoal(m_arm, Row.BOTTOM))
+    .or(m_operatorController.b().onTrue(new MoveToGoal(m_arm, Row.MIDDLE)))
+    .or(m_operatorController.y().onTrue(new MoveToGoal(m_arm, Row.TOP)));
     
     //slow mode for right bumper, medium slow for left bumper
-    m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve))
+    //We added a "this." to this line
+    this.m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve))
     .or(m_driverController.leftBumper().onTrue(new InstantCommand(() -> m_swerve.mediumMode(), m_swerve)))
     .onFalse(new InstantCommand(() -> m_swerve.normalMode(), m_swerve));
 

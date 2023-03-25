@@ -75,6 +75,9 @@ public class RobotContainer {
     m_operatorController.povUp().whileTrue(new RunCommand(() -> m_arm.moveShoulder(0.5), m_arm))
     .or(m_operatorController.povDown().whileTrue(new RunCommand(() -> m_arm.moveShoulder(-0.5), m_arm)))
     .whileFalse(new RunCommand(() -> m_arm.moveShoulder(0), m_arm));
+    m_operatorController.leftBumper().whileTrue(new RunCommand(() -> m_arm.moveExtensionArm(0.5), m_arm))
+    .or(m_operatorController.rightBumper().whileTrue(new RunCommand(() -> m_arm.moveExtensionArm(-0.5), m_arm)))
+    .whileFalse(new RunCommand(() -> m_arm.moveExtensionArm(0), m_arm));
     //TODO: Fix Arm Angle Offsets in Arm.java first before uncommenting
     // m_operatorController.a().onTrue(new MoveToGoal(m_arm, Row.BOTTOM))
     // .or(m_operatorController.b().onTrue(new MoveToGoal(m_arm, Row.MIDDLE)))

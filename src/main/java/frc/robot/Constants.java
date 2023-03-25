@@ -42,6 +42,12 @@ public class Constants {
         public static final double kArmReduction = 1;
         public static final double kArmEncoderPositionFactor = (2 * Math.PI);
         public static final double kArmEncoderVelocityFactor = kArmEncoderPositionFactor/60.0;
+        // public static final 
+        
+        //Measured in inches of rope
+        public static final double kHybridLength = 5;
+        public static final double kMidLength = 30;
+        public static final double kHighLength = 40;
 
         public static final int kRightMotorId = 9;
         public static final int kLeftMotorId = 6;
@@ -166,7 +172,7 @@ public class Constants {
         public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
         public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
     
-        public static final int kDrivingMotorCurrentLimit = 50; // amps
+        public static final int kDrivingMotorCurrentLimit = 20; // amps
         public static final int kTurningMotorCurrentLimit = 20; // amps
       }
 

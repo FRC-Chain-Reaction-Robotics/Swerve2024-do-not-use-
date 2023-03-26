@@ -324,10 +324,10 @@ public class Swerve extends SubsystemBase {
   }
 
   public void stopModules() {
-    m_frontLeft.setDesiredState(new SwerveModuleState());
-    m_frontRight.setDesiredState(new SwerveModuleState());
-    m_rearLeft.setDesiredState(new SwerveModuleState());
-    m_rearRight.setDesiredState(new SwerveModuleState());
+    m_frontLeft.setDesiredState(new SwerveModuleState(0, m_frontLeft.getState().angle));
+    m_frontRight.setDesiredState(new SwerveModuleState(0, m_frontRight.getState().angle));
+    m_rearLeft.setDesiredState(new SwerveModuleState(0, m_rearLeft.getState().angle));
+    m_rearRight.setDesiredState(new SwerveModuleState(0, m_rearRight.getState().angle));
   }
 
 }

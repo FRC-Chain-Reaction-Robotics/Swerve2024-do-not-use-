@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
 
    /** This function provides static access to create a custom periodic function in the current robot instance. */
    public static void addCustomPeriodic(Runnable callback, double periodSeconds) {
-    m_robotInstance.addPeriodic(callback, periodSeconds, 0.333);
+    m_robotInstance.addPeriodic(callback, periodSeconds, 0.02);
   }
   
   

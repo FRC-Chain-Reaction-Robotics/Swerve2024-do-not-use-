@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -20,10 +21,10 @@ public class Intake extends SubsystemBase {
         intakeMotor.configFactoryDefault();
    }
 
-   public void On()
+   public void On(double speed)
    {
         intakeMotor.setInverted(false);
-        intakeMotor.set(1);
+        intakeMotor.set(speed);
    }
 
    public void Off()
@@ -31,14 +32,20 @@ public class Intake extends SubsystemBase {
         intakeMotor.set(0);
    }
 
-   public void Reverse()
+   public void Reverse(double speed)
    {
         intakeMotor.setInverted(true);
-        intakeMotor.set(1);
+        intakeMotor.set(speed);
    }
 
    @Override
    public void periodic() {
      // This method will be called once per scheduler run
+     SmartDashboard.putNumber("Intake motor value", intakeMotor.getSelectedSensorPosition());
+   }
+
+   public double getSelectedSensorPosition()
+   {
+     return intakeMotor.getSelectedSensorPosition();
    }
  }

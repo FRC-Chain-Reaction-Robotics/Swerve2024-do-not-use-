@@ -11,9 +11,9 @@ public class TurnToAngle extends PIDCommand{
     public TurnToAngle(double angle, Swerve m_swerve)
     {
         super(
-            new PIDController(Constants.SwerveModule.kTurningP, Constants.SwerveModule.kTurningI, Constants.SwerveModule.kTurningD),
+            new PIDController(0.015, 0, 0),
             m_swerve::getHeading,
-            angle,
+            angle + m_swerve.getHeading(),
             output -> m_swerve.drive(0, 0, output, true),
             m_swerve
         );

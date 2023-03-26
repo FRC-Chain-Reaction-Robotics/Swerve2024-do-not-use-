@@ -323,4 +323,11 @@ public class Swerve extends SubsystemBase {
     m_gyro.initSendable(builder);
   }
 
+  public void stopModules() {
+    m_frontLeft.setDesiredState(new SwerveModuleState());
+    m_frontRight.setDesiredState(new SwerveModuleState());
+    m_rearLeft.setDesiredState(new SwerveModuleState());
+    m_rearRight.setDesiredState(new SwerveModuleState());
+  }
+
 }

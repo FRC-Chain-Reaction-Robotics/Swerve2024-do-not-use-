@@ -25,11 +25,9 @@ public class MoveToGoal extends PIDCommand{
         {
             case BOTTOM:
                 m_setpoint = () -> Units.radiansToRotations(Math.asin(Constants.Game.kBottomRowHeight/Constants.Arm.kArmlength))+Constants.Arm.armEncoderOffset;
-                //m_length = () -> Units.inchesToMeters(Constants.Arm.kHybridLength);
                 break;
             case MIDDLE:
                 m_setpoint = () -> Units.radiansToRotations(Math.asin(Constants.Game.kMiddleRowHeight/Constants.Arm.kArmlength))+Constants.Arm.armEncoderOffset;
-                //m_length = () -> Units.inchesToMeters(Constants.Arm.kMidLength);
                 break;
             case TOP:
                 m_setpoint = () -> Units.radiansToRotations(Math.asin(Constants.Game.kTopRowHeight/Constants.Arm.kArmlength))+Constants.Arm.armEncoderOffset;

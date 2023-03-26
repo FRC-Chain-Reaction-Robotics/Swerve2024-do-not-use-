@@ -11,7 +11,7 @@ public class DriveToDistance extends PIDCommand{
     public DriveToDistance(double distMeters, Swerve m_swerve)
     {
         super(
-            new PIDController(Constants.SwerveModule.kDrivingP, Constants.SwerveModule.kDrivingI, Constants.SwerveModule.kDrivingD),
+            new PIDController(1.15, 0, 0),
             m_swerve::getDistanceMeters,
             distMeters + m_swerve.getDistanceMeters(),
             output -> m_swerve.drive(output, 0, 0, true),

@@ -34,7 +34,6 @@ public class RobotContainer {
 
   private final SendableChooser<Command> chooser = new SendableChooser<Command>();
   private Swerve m_swerve = new Swerve();
-  // private Suction m_suction = new Suction();
   private Arm m_arm = new Arm();
   private Intake m_intake = new Intake();
   
@@ -52,7 +51,7 @@ public class RobotContainer {
     chooser.setDefaultOption("PathPlanner Command", new FollowTrajectory(simplePath, true, m_swerve));
     //chooser.addOption("Turn To Angle", new TurnToAngle(90, dt));
     chooser.addOption("Drive To Distance", new DriveToDistance(Units.feetToMeters(7), m_swerve));
-    chooser.addOption("Move to Charge Station", new MoveToChargeStation(m_swerve));
+    chooser.addOption("Score and Move to Charge Station", new MoveToChargeStation(m_swerve, m_arm, m_intake));
     SmartDashboard.putData(chooser);
   }
 
@@ -75,23 +74,25 @@ public class RobotContainer {
     m_operatorController.povUp().whileTrue(new RunCommand(() -> m_arm.moveShoulder(0.5), m_arm))
     .or(m_operatorController.povDown().whileTrue(new RunCommand(() -> m_arm.moveShoulder(-0.5), m_arm)))
     .whileFalse(new RunCommand(() -> m_arm.moveShoulder(0), m_arm));
+    
+    //move extension back and forth
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> m_arm.moveExtensionArm(0.5), m_arm))
     .or(m_operatorController.rightBumper().whileTrue(new RunCommand(() -> m_arm.moveExtensionArm(-0.5), m_arm)))
     .whileFalse(new RunCommand(() -> m_arm.moveExtensionArm(0), m_arm));
+
     //TODO: Fix Arm Angle Offsets in Arm.java first before uncommenting
     // m_operatorController.a().onTrue(new MoveToGoal(m_arm, Row.BOTTOM))
     // .or(m_operatorController.b().onTrue(new MoveToGoal(m_arm, Row.MIDDLE)))
     // .or(m_operatorController.y().onTrue(new MoveToGoal(m_arm, Row.TOP)));
     
     //slow mode for right bumper, medium slow for left bumper
-    //We added a "this." to this line
     m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve))
     .or(m_driverController.leftBumper().onTrue(new InstantCommand(() -> m_swerve.mediumMode(), m_swerve)))
     .onFalse(new InstantCommand(() -> m_swerve.normalMode(), m_swerve));
 
     //Intake Button
-    m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> m_intake.On(), m_intake))
-    .or(m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.Reverse(), m_intake)))
+    m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> m_intake.On(1), m_intake))
+    .or(m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.Reverse(1), m_intake)))
     .onFalse(new RunCommand(() -> m_intake.Off(), m_intake));
     
   }

@@ -75,6 +75,7 @@ public class PickupAndScore extends SequentialCommandGroup{
         addCommands(
             new MoveToGoal(m_arm, Row.TOP),
             new ReleaseGamePiece(m_intake),
+            new MoveToGoal(m_arm, Row.NONE),
             new TurnToAngle(180, m_swerve),
             new InstantCommand(m_swerve::zeroHeading, m_swerve),
             new InstantCommand(() -> m_swerve.resetPose(trajectory.getInitialPose())),
@@ -86,8 +87,8 @@ public class PickupAndScore extends SequentialCommandGroup{
             swerveControllerCommand2,
             new InstantCommand(() -> m_swerve.stopModules()),
             new MoveToGoal(m_arm, Row.TOP),
-            new ReleaseGamePiece(m_intake),
+            new ReleaseGamePiece(m_intake)/*,
             //optional
-            new TurnToAngle(180, m_swerve));
+            new TurnToAngle(180, m_swerve)*/);
     }
 }

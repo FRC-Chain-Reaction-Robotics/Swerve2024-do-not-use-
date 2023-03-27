@@ -20,15 +20,16 @@ import frc.robot.commands.arm.MoveToGoal.Row;
 import frc.robot.commands.auto.DriveToDistance;
 import frc.robot.commands.auto.FollowTrajectory;
 import frc.robot.commands.auto.MoveToChargeStation;
+import frc.robot.commands.auto.PickupAndScore;
+import frc.robot.commands.auto.TurnToAngle;
 import frc.robot.commands.drive.DriveWithJoysticks;
+import frc.robot.commands.intake.PickupGamePiece;
+import frc.robot.commands.intake.ReleaseGamePiece;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
-// import frc.robot.commands.suction.DisableSuction;
-// import frc.robot.commands.suction.EnableSuction;
-//import frc.robot.lib.Utils;
-// import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Swerve;
-// import frc.robot.subsystems.Suction;
+
 
 public class RobotContainer {
 
@@ -46,13 +47,8 @@ public class RobotContainer {
   public RobotContainer() {
     setupDrive(); 
     configureButtonBindings();
-    
     //Creating a dropdown for autonomous commands to choose from
-    chooser.setDefaultOption("PathPlanner Command", new FollowTrajectory(simplePath, true, m_swerve));
-    //chooser.addOption("Turn To Angle", new TurnToAngle(90, dt));
-    chooser.addOption("Drive To Distance", new DriveToDistance(Units.feetToMeters(7), m_swerve));
-    chooser.addOption("Score and Move to Charge Station", new MoveToChargeStation(m_swerve, m_arm, m_intake));
-    SmartDashboard.putData(chooser);
+    addCommandDropdown();
   }
 
   private void setupDrive() {
@@ -95,6 +91,22 @@ public class RobotContainer {
     .or(m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.Reverse(1), m_intake)))
     .onFalse(new RunCommand(() -> m_intake.Off(), m_intake));
     
+  }
+
+  private void addCommandDropdown()
+  {
+    chooser.setDefaultOption("PathPlanner Command", new FollowTrajectory(simplePath, true, m_swerve));
+    chooser.addOption("Turn To Angle", new TurnToAngle(90, m_swerve));
+    chooser.addOption("Drive To Distance", new DriveToDistance(Units.feetToMeters(7), m_swerve));
+    chooser.addOption("Score and Move to Charge Station", new MoveToChargeStation(m_swerve, m_arm, m_intake));
+    chooser.addOption("Pickup game piece and score", new PickupAndScore(m_swerve, m_arm, m_intake));
+    chooser.addOption("Move to Hybrid", new MoveToGoal(m_arm, Row.BOTTOM));
+    chooser.addOption("Move to Middle", new MoveToGoal(m_arm, Row.MIDDLE));
+    chooser.addOption("Move to High", new MoveToGoal(m_arm, Row.TOP));
+    chooser.addOption("Move Arm up", new MoveToGoal(m_arm, Row.NONE));
+    chooser.addOption("Pickup Game Piece", new PickupGamePiece(m_intake));
+    chooser.addOption("Release Game Piece", new ReleaseGamePiece(m_intake));
+    SmartDashboard.putData(chooser);
   }
 
   public Command getAutonomousCommand() {

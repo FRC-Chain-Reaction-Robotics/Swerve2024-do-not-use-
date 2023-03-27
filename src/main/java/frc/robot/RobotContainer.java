@@ -5,9 +5,6 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.PathPlanner;
-import com.pathplanner.lib.PathPlannerTrajectory;
-
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.arm.MoveToGoal;
 import frc.robot.commands.arm.MoveToGoal.Row;
 import frc.robot.commands.auto.DriveToDistance;
-import frc.robot.commands.auto.FollowTrajectory;
 import frc.robot.commands.auto.MoveToChargeStation;
 import frc.robot.commands.auto.PickupAndScore;
 import frc.robot.commands.auto.TurnToAngle;
@@ -27,7 +23,6 @@ import frc.robot.commands.intake.PickupGamePiece;
 import frc.robot.commands.intake.ReleaseGamePiece;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Swerve;
 
 
@@ -42,7 +37,6 @@ public class RobotContainer {
   private final CommandXboxController m_driverController = new CommandXboxController(Constants.Controllers.kDriverControllerPort);
   private final CommandXboxController m_operatorController = new CommandXboxController(Constants.Controllers.kOperatorControllerPort);
 
-  private final PathPlannerTrajectory simplePath = PathPlanner.loadPath("SimplePath", 1, 1);
   
   public RobotContainer() {
     setupDrive(); 
@@ -95,9 +89,8 @@ public class RobotContainer {
 
   private void addCommandDropdown()
   {
-    chooser.setDefaultOption("PathPlanner Command", new FollowTrajectory(simplePath, true, m_swerve));
+    chooser.setDefaultOption("Drive To Distance", new DriveToDistance(Units.feetToMeters(7), m_swerve));
     chooser.addOption("Turn To Angle", new TurnToAngle(90, m_swerve));
-    chooser.addOption("Drive To Distance", new DriveToDistance(Units.feetToMeters(7), m_swerve));
     chooser.addOption("Score and Move to Charge Station", new MoveToChargeStation(m_swerve, m_arm, m_intake));
     chooser.addOption("Pickup game piece and score", new PickupAndScore(m_swerve, m_arm, m_intake));
     chooser.addOption("Move to Hybrid", new MoveToGoal(m_arm, Row.BOTTOM));

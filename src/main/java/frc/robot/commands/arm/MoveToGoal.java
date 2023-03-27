@@ -53,7 +53,7 @@ public class MoveToGoal extends CommandBase {
                 m_extend_setpoint = m_arm.getExtensionEncoder().getPosition();
                 break;
             case NONE:
-                m_angle_setpoint = 0.47;
+                m_angle_setpoint = 0.225;
                 break;
                 
             // case PLAYER_STATION:

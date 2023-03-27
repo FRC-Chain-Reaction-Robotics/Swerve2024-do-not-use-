@@ -45,8 +45,8 @@ public class Arm extends SubsystemBase {
         leftMotor.setInverted(true);
         extensionMotor.setInverted(false);
         
-        leftMotor.setIdleMode(IdleMode.kBrake);
-        rightMotor.setIdleMode(IdleMode.kBrake);
+        leftMotor.setIdleMode(IdleMode.kCoast);
+        rightMotor.setIdleMode(IdleMode.kCoast);
         extensionMotor.setIdleMode(IdleMode.kBrake);
         
         leftMotor.setSmartCurrentLimit(60, 40); // CHANGE THIS

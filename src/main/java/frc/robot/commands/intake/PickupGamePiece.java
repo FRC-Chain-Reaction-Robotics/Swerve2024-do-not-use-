@@ -15,6 +15,8 @@ public class PickupGamePiece extends PIDCommand
         m_intake.getSelectedSensorPosition() + 1,
         output -> m_intake.On(output), 
         m_intake);
+
+        this.m_intake = m_intake;
     }
 
     // Called when the command is initially scheduled.

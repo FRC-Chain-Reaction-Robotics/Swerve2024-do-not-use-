@@ -1,12 +1,8 @@
 package frc.robot.commands.arm;
 
-import java.util.function.DoubleConsumer;
-import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
 
@@ -17,14 +13,11 @@ public class MoveToGoal extends CommandBase {
     
     //The Arm Angle PID
     private final PIDController m_angle_controller;
-    private DoubleSupplier m_angle_measurement;
-    private DoubleSupplier m_angle_setpoint;
-    private DoubleConsumer m_angle_useOutput;
+    private double m_angle_setpoint;
+    
     //The Arm Extension PID 
     private final PIDController m_extend_controller;
-    private DoubleSupplier m_extend_measurement;
-    private DoubleSupplier m_extend_setpoint;
-    private DoubleConsumer m_extend_useOutput;
+    private double m_extend_setpoint;
 
     public static enum Row{BOTTOM, MIDDLE, TOP, GROUND}
     
@@ -32,34 +25,31 @@ public class MoveToGoal extends CommandBase {
        
        //Angle PIDController
         m_angle_controller = new PIDController(3, 0, 0);
-        m_angle_measurement = () -> m_arm.getLiftThroughBEncoder().getPosition();
-        m_angle_setpoint = () -> 0;
-        m_angle_useOutput = output -> m_arm.moveShoulder(output);
+        m_angle_setpoint = 0;
 
        //Extend PIDController
         m_extend_controller = new PIDController(1.5, 0, 0);
-        m_extend_measurement = () -> m_arm.getExtensionEncoder().getPosition();
-        m_extend_setpoint = () -> 0;
-        m_extend_useOutput = output -> m_arm.moveExtensionArm(output);
+        m_extend_setpoint = 0;
+        
         switch (row)
         //Tune setpoints manually
         {
             case BOTTOM:
-                m_angle_setpoint = () -> Constants.Arm.kBottomAngle;
-                m_extend_setpoint = () -> Constants.Arm.kBottomLength;
+                m_angle_setpoint = Constants.Arm.kBottomAngle;
+                m_extend_setpoint = Constants.Arm.kBottomLength;
                 break;
             case MIDDLE:
-                m_angle_setpoint = () -> Constants.Arm.kMiddleAngle;
-                m_extend_setpoint = () -> Constants.Arm.kMiddleLength;
+                m_angle_setpoint = Constants.Arm.kMiddleAngle;
+                m_extend_setpoint = Constants.Arm.kMiddleLength;
                 break;
             case TOP:
-                m_angle_setpoint = () -> Constants.Arm.kTopAngle;
-                m_extend_setpoint = () -> Constants.Arm.kTopLength;
+                m_angle_setpoint = Constants.Arm.kTopAngle;
+                m_extend_setpoint = Constants.Arm.kTopLength;
                 break;
             // AUTON Only (Tune for intake)
             case GROUND:
-                m_angle_setpoint = () -> 0;
-                m_extend_setpoint = () -> m_arm.getExtensionEncoder().getPosition();
+                m_angle_setpoint = 0;
+                m_extend_setpoint = m_arm.getExtensionEncoder().getPosition();
                 break;
                 
             // case PLAYER_STATION:
@@ -69,7 +59,7 @@ public class MoveToGoal extends CommandBase {
         m_extend_controller.setTolerance(.5);
 
         if (!extended)
-            m_extend_setpoint = () -> m_arm.getExtensionEncoder().getPosition();
+            m_extend_setpoint = m_arm.getExtensionEncoder().getPosition();
 
         this.m_arm = m_arm;
         //TODO Auto-generated constructor stub
@@ -83,8 +73,8 @@ public class MoveToGoal extends CommandBase {
     @Override
     public void execute()
     {
-        m_angle_useOutput.accept(m_angle_controller.calculate(m_angle_measurement.getAsDouble(), m_angle_setpoint.getAsDouble()));
-        m_extend_useOutput.accept(m_extend_controller.calculate(m_extend_measurement.getAsDouble(), m_extend_setpoint.getAsDouble()));
+        m_arm.moveShoulder(m_angle_controller.calculate(m_arm.getLiftThroughBEncoder().getPosition(), m_angle_setpoint));
+        m_arm.moveExtensionArm(m_extend_controller.calculate(m_arm.getExtensionEncoder().getPosition(), m_extend_setpoint));
     }
 
     @Override

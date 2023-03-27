@@ -80,7 +80,7 @@ public class PickupAndScore extends SequentialCommandGroup{
             new InstantCommand(() -> m_swerve.resetPose(trajectory.getInitialPose())),
             swerveControllerCommand,
             new InstantCommand(() -> m_swerve.stopModules()),
-            new MoveToGoal(m_arm, Row.BOTTOM),
+            new MoveToGoal(m_arm, Row.GROUND),
             new PickupGamePiece(m_intake),
             new TurnToAngle(180, m_swerve),      
             swerveControllerCommand2,

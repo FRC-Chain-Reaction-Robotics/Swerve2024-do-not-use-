@@ -42,12 +42,19 @@ public class Constants {
         public static final double kArmReduction = 1;
         public static final double kArmEncoderPositionFactor = (2 * Math.PI);
         public static final double kArmEncoderVelocityFactor = kArmEncoderPositionFactor/60.0;
-        // public static final 
+        //TODO: Tune this! "solve for average radius"
+        public static final double kArmLengthConversionFactor = 2*Math.PI*(1);
         
-        //Measured in inches of rope
-        public static final double kHybridLength = 5;
-        public static final double kMidLength = 30;
-        public static final double kHighLength = 40;
+        //Measured in inches of rope (Need to Tune)
+        public static final double kBottomLength = 5;
+        public static final double kMiddleLength = 30;
+        public static final double kTopLength = 40;
+
+        //Measured in Rotations (Need to Tune)
+        public static final double kBottomAngle = .3;
+        public static final double kMiddleAngle = .4;
+        public static final double kTopAngle = .5;
+
 
         public static final int kRightMotorId = 9;
         public static final int kLeftMotorId = 6;

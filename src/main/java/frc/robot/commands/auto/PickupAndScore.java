@@ -39,12 +39,12 @@ public class PickupAndScore extends SequentialCommandGroup{
             trajectoryConfig);
         
         Trajectory trajectory2 = TrajectoryGenerator.generateTrajectory(
-            new Pose2d(0, 0, new Rotation2d(0)), 
-            List.of(
-                new Translation2d(0, Units.feetToMeters(-5)),
-                new Translation2d(Units.feetToMeters(5), Units.feetToMeters(-5))
-            ), 
             new Pose2d(Units.feetToMeters(5), 0, new Rotation2d(0)), 
+            List.of(
+                new Translation2d(5, Units.feetToMeters(5)),
+                new Translation2d(Units.feetToMeters(0), Units.feetToMeters(5))
+            ), 
+            new Pose2d(0, 0, new Rotation2d(0)), 
             trajectoryConfig);
 
         PIDController xPID = new PIDController(1.5, 0, 0);
@@ -73,18 +73,21 @@ public class PickupAndScore extends SequentialCommandGroup{
             m_swerve);
 
         addCommands(
+            new MoveToGoal(m_arm, Row.TOP),
+            new ReleaseGamePiece(m_intake),
+            new TurnToAngle(180, m_swerve),
+            new InstantCommand(m_swerve::zeroHeading, m_swerve),
             new InstantCommand(() -> m_swerve.resetPose(trajectory.getInitialPose())),
             swerveControllerCommand,
             new InstantCommand(() -> m_swerve.stopModules()),
             new MoveToGoal(m_arm, Row.BOTTOM),
             new PickupGamePiece(m_intake),
-            new TurnToAngle(180, m_swerve),
-            new InstantCommand(m_swerve::zeroHeading, m_swerve),
-            new InstantCommand(() -> m_swerve.resetPose(trajectory.getInitialPose())),
+            new TurnToAngle(180, m_swerve),      
             swerveControllerCommand2,
             new InstantCommand(() -> m_swerve.stopModules()),
             new MoveToGoal(m_arm, Row.TOP),
             new ReleaseGamePiece(m_intake),
+            //optional
             new TurnToAngle(180, m_swerve));
     }
 }

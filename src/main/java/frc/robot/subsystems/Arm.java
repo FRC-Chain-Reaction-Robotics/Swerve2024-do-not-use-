@@ -28,7 +28,6 @@ public class Arm extends SubsystemBase {
 
     private AbsoluteEncoder liftThroughBEncoder;
 
-    private final PIDController pid = new PIDController(3, 0, 0);
 
     public Arm() {
         rightMotor = new CANSparkMax(Constants.Arm.kRightMotorId, MotorType.kBrushless);
@@ -50,15 +49,16 @@ public class Arm extends SubsystemBase {
         rightMotor.setIdleMode(IdleMode.kBrake);
         extensionMotor.setIdleMode(IdleMode.kBrake);
         
-        leftMotor.setSmartCurrentLimit(20, 20); // CHANGE THIS
-        rightMotor.setSmartCurrentLimit(20, 20);
-        extensionMotor.setSmartCurrentLimit(20, 20);
+        leftMotor.setSmartCurrentLimit(60, 40); // CHANGE THIS
+        rightMotor.setSmartCurrentLimit(60, 40);
+        extensionMotor.setSmartCurrentLimit(40, 30);
         
         leftEncoder = leftMotor.getEncoder();
         extensionEncoder = extensionMotor.getEncoder();
         
         leftEncoder.setPositionConversionFactor(Constants.Arm.kArmEncoderPositionFactor);
-        extensionEncoder.setPositionConversionFactor(Constants.Arm.kArmEncoderPositionFactor);
+        // TODO: Calculate this factor "solve for average radius";
+        extensionEncoder.setPositionConversionFactor(Constants.Arm.kArmLengthConversionFactor);
 
         leftEncoder.setVelocityConversionFactor(Constants.Arm.kArmEncoderVelocityFactor);
         extensionEncoder.setVelocityConversionFactor(Constants.Arm.kArmEncoderVelocityFactor);
@@ -85,19 +85,12 @@ public class Arm extends SubsystemBase {
         extensionMotor.burnFlash();
     }
 
-    public PIDController getPidController()
-    {
-        return pid;
-    }
 
     public AbsoluteEncoder getLiftThroughBEncoder()
     {
         return liftThroughBEncoder;
     }
 
-    public boolean atSetpoint() {
-        return pid.atSetpoint();
-    }
 
     @Override
 
@@ -120,6 +113,7 @@ public class Arm extends SubsystemBase {
     {
         return extensionEncoder;
     }
+    
     
 
 

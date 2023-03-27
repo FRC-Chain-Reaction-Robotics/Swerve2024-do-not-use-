@@ -78,6 +78,7 @@ public class Arm extends SubsystemBase {
        
         liftThroughBEncoder = leftMotor.getAbsoluteEncoder(Type.kDutyCycle);  //  TODO: what?? doesn't this need 4 dio ports NOO! It needs an adapter board for the sparkmaxes data port       
         liftThroughBEncoder.setInverted(true);
+        
     
 
         leftMotor.burnFlash();

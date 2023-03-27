@@ -24,11 +24,11 @@ public class MoveToGoal extends CommandBase {
     public MoveToGoal(Arm m_arm, Row row, boolean extended) {
        
        //Angle PIDController
-        m_angle_controller = new PIDController(3, 0, 0);
+        m_angle_controller = new PIDController(2, 0, 0);
         m_angle_setpoint = 0;
 
        //Extend PIDController
-        m_extend_controller = new PIDController(1.5, 0, 0);
+        m_extend_controller = new PIDController(0.025, 0, 0);
         m_extend_setpoint = 0;
         
         switch (row)

@@ -10,10 +10,10 @@ public class ReleaseGamePiece extends PIDCommand
 
     public ReleaseGamePiece(Intake m_intake)
     {
-        super(new PIDController(0.1, 0, 0),
+        super(new PIDController(1, 0, 0),
         m_intake::getSelectedSensorPosition, 
         m_intake.getSelectedSensorPosition() + 1,
-        output -> m_intake.On(output), 
+        output -> m_intake.Reverse(output), 
         m_intake);
     }
 

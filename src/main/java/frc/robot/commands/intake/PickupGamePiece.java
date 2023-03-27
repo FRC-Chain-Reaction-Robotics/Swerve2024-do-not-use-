@@ -10,9 +10,9 @@ public class PickupGamePiece extends PIDCommand
 
     public PickupGamePiece(Intake m_intake)
     {
-        super(new PIDController(0.1, 0, 0),
+        super(new PIDController(1, 0, 0),
         m_intake::getSelectedSensorPosition, 
-        m_intake.getSelectedSensorPosition() - 1,
+        m_intake.getSelectedSensorPosition() + 1,
         output -> m_intake.On(output), 
         m_intake);
     }

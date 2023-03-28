@@ -230,7 +230,7 @@ public class Swerve extends SubsystemBase {
         //We changed the fromDegrees() argument from m_gryo.getAngle() and added the Math.IEEEremainder from the 0 to Auton
         //The NavX 
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(Math.IEEEremainder(-m_gyro.getAngle(), 360)))
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(-m_gyro.getAngle()))
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.Swerve.kMaxSpeedMetersPerSecond);

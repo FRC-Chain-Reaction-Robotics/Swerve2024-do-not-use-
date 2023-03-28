@@ -77,8 +77,8 @@ public class RobotContainer {
     // .or(m_operatorController.y().onTrue(new MoveToGoal(m_arm, Row.TOP)));
     
     //slow mode for right bumper, medium slow for left bumper
-    m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.fastMode(), m_swerve))
-    .or(m_driverController.leftBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve)))
+    m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve))
+    .or(m_driverController.leftBumper().onTrue(new InstantCommand(() -> m_swerve.fastMode(), m_swerve)))
     .onFalse(new InstantCommand(() -> m_swerve.mediumMode(), m_swerve));
 
     //Intake Button

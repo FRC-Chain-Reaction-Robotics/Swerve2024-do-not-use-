@@ -228,8 +228,9 @@ public class Swerve extends SubsystemBase {
 
     var swerveModuleStates = Constants.Swerve.kDriveKinematics.toSwerveModuleStates(
         //We changed the fromDegrees() argument from m_gryo.getAngle() and added the Math.IEEEremainder from the 0 to Auton
+        //The NavX 
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(Math.IEEEremainder(m_gyro.getAngle(), 360)))
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(Math.IEEEremainder(-m_gyro.getAngle(), 360)))
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.Swerve.kMaxSpeedMetersPerSecond);
@@ -327,15 +328,15 @@ public class Swerve extends SubsystemBase {
     m_rearRight.setDesiredState(new SwerveModuleState(0, m_rearRight.getState().angle));
   }
 
-  private static ChassisSpeeds fieldRelativeSpeeds(double vxMetersPerSecond,
-  double vyMetersPerSecond,
-  double omegaRadiansPerSecond,
-  Rotation2d robotAngle)
-  {
-    return new ChassisSpeeds(
-      vxMetersPerSecond * robotAngle.getCos() + vyMetersPerSecond * robotAngle.getSin(),
-      -vxMetersPerSecond * robotAngle.getSin() + vyMetersPerSecond * robotAngle.getCos(),
-      omegaRadiansPerSecond);
-  }
+  // private static ChassisSpeeds fieldRelativeSpeeds(double vxMetersPerSecond,
+  // double vyMetersPerSecond,
+  // double omegaRadiansPerSecond,
+  // Rotation2d robotAngle) //Math for ChassisSpeeds.fromFieldRelativeSpeeds() could be incorrect.
+  // {
+  //   return new ChassisSpeeds(
+  //     vxMetersPerSecond * robotAngle.getCos() + vyMetersPerSecond * robotAngle.getSin(),
+  //     -vxMetersPerSecond * robotAngle.getSin() + vyMetersPerSecond * robotAngle.getCos(),
+  //     omegaRadiansPerSecond);
+  // }
 
 }

@@ -59,6 +59,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //DRIVER
     m_driverController.y().onTrue(new InstantCommand(() -> m_swerve.zeroHeading(), m_swerve));
+    m_driverController.a().onTrue(new InstantCommand(() -> m_swerve.resetEncoders(), m_swerve));
    
     //Arm
     m_operatorController.povUp().whileTrue(new RunCommand(() -> m_arm.moveShoulder(0.5), m_arm))
@@ -76,9 +77,9 @@ public class RobotContainer {
     // .or(m_operatorController.y().onTrue(new MoveToGoal(m_arm, Row.TOP)));
     
     //slow mode for right bumper, medium slow for left bumper
-    m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve))
-    .or(m_driverController.leftBumper().onTrue(new InstantCommand(() -> m_swerve.mediumMode(), m_swerve)))
-    .onFalse(new InstantCommand(() -> m_swerve.normalMode(), m_swerve));
+    m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.fastMode(), m_swerve))
+    .or(m_driverController.leftBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve)))
+    .onFalse(new InstantCommand(() -> m_swerve.mediumMode(), m_swerve));
 
     //Intake Button
     m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> m_intake.On(1), m_intake))
@@ -114,9 +115,9 @@ public class RobotContainer {
 
   private static double modifyAxis(double value)
   {
-    value = deadBand(value, 0.1);
+    value = deadBand(value, 0.075);
 
-    value = value * value * value;
+    value = Math.copySign(value * value, value);
 
     return value;
   }

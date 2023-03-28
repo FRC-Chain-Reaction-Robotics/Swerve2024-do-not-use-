@@ -72,7 +72,8 @@ public class Swerve extends SubsystemBase {
 
   private final Field2d m_fieldSim = new Field2d();
   
-  public static final double output = 1;
+  //Medium Speed
+  public static final double output = 0.7;
 
   public static double m_output = output;
 
@@ -162,17 +163,17 @@ public class Swerve extends SubsystemBase {
     m_rearLeft.evilMode();
     m_rearRight.evilMode();
 
-		m_output = 0.5;
+		m_output = output;
   }
 
-  public void normalMode()
+  public void fastMode()
   {
     m_frontLeft.goodMode();
     m_frontRight.goodMode();
     m_rearLeft.goodMode();
     m_rearRight.goodMode();
 
-		m_output = output;
+		m_output = 1;
   }
 
   /**
@@ -214,20 +215,21 @@ public class Swerve extends SubsystemBase {
     rot *= m_output;
 
 
-    double deadband = Constants.Swerve.kMaxSpeedMetersPerSecond / 10;
-    xSpeed = deadBand(xSpeed, deadband);
-    ySpeed = deadBand(ySpeed, deadband);
+    // double deadband = Constants.Swerve.kMaxSpeedMetersPerSecond / 10;
+    // xSpeed = deadBand(xSpeed, deadband);
+    // ySpeed = deadBand(ySpeed, deadband);
     
-    double deadbandRot = 2 * Math.PI / 9.45;
-    rot = deadBand(rot, deadbandRot);
+    // double deadbandRot = 2 * Math.PI / 9.45;
+    // rot = deadBand(rot, deadbandRot);
 
     xSpeed = xLimiter.calculate(xSpeed);
     ySpeed = yLimiter.calculate(ySpeed);
     rot = rotLimiter.calculate(rot);
 
     var swerveModuleStates = Constants.Swerve.kDriveKinematics.toSwerveModuleStates(
+        //We changed the fromDegrees() argument from m_gryo.getAngle() and added the Math.IEEEremainder from the 0 to Auton
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(m_gyro.getAngle()))
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(Math.IEEEremainder(m_gyro.getAngle(), 360)))
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.Swerve.kMaxSpeedMetersPerSecond);
@@ -240,10 +242,7 @@ public class Swerve extends SubsystemBase {
   public double getDistanceMeters()
 	{
 		// return 0.0;
-		return Math.max(
-      Math.max(m_frontLeft.getDrivingRelativePosition(), m_frontRight.getDrivingRelativePosition()),
-      Math.max(m_rearLeft.getDrivingRelativePosition(), m_rearRight.getDrivingRelativePosition())
-    );
+		return Math.max(m_frontLeft.getDrivingRelativePosition(), m_frontRight.getDrivingRelativePosition());
 	}
 
   private static double deadBand(double value, double deadband)
@@ -295,6 +294,7 @@ public class Swerve extends SubsystemBase {
   public void zeroHeading() {
     m_gyro.reset();
   }
+  
 
   /**
    * Returns the heading of the robot.
@@ -325,6 +325,17 @@ public class Swerve extends SubsystemBase {
     m_frontRight.setDesiredState(new SwerveModuleState(0, m_frontRight.getState().angle));
     m_rearLeft.setDesiredState(new SwerveModuleState(0, m_rearLeft.getState().angle));
     m_rearRight.setDesiredState(new SwerveModuleState(0, m_rearRight.getState().angle));
+  }
+
+  private static ChassisSpeeds fieldRelativeSpeeds(double vxMetersPerSecond,
+  double vyMetersPerSecond,
+  double omegaRadiansPerSecond,
+  Rotation2d robotAngle)
+  {
+    return new ChassisSpeeds(
+      vxMetersPerSecond * robotAngle.getCos() + vyMetersPerSecond * robotAngle.getSin(),
+      -vxMetersPerSecond * robotAngle.getSin() + vyMetersPerSecond * robotAngle.getCos(),
+      omegaRadiansPerSecond);
   }
 
 }

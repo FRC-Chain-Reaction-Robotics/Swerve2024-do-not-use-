@@ -114,7 +114,7 @@ public class Constants {
         public static final int kBackLeftDrivingCanId = 10;
         public static final int kBackLeftTurningCanId = 1;
         public static final int kBackLeftCanCoderId = 60;
-        public static final double kBackLeftChassisAngularOffset = Math.toRadians(272.373); // manually zeroed
+        public static final double kBackLeftChassisAngularOffset = Math.toRadians(270.352); // manually zeroed
         
         //Back Right Module
         public static final int kBackRightDrivingCanId = 7;
@@ -179,8 +179,8 @@ public class Constants {
         public static final IdleMode kDrivingMotorIdleMode = IdleMode.kBrake;
         public static final IdleMode kTurningMotorIdleMode = IdleMode.kBrake;
     
-        public static final int kDrivingMotorCurrentLimit = 60; // amps
-        public static final int kTurningMotorCurrentLimit = 20; // amps
+        public static final int kDrivingMotorCurrentLimit = 40; // amps
+        public static final int kTurningMotorCurrentLimit = 30; // amps
       }
 
       public static final class Intake {

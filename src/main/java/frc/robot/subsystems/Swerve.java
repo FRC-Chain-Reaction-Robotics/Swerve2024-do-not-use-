@@ -98,19 +98,27 @@ public class Swerve extends SubsystemBase {
   public void periodic() {
     updatePose();
 
-    SmartDashboard.putNumber("Drive/Swerve/FrontLeft/SteeringRelativePosition", m_frontLeft.getSteeringRelativePosition());
+    SmartDashboard.putNumber("FrontLeft DrivingRelativePosition", m_frontLeft.getDrivingRelativePosition());
+    SmartDashboard.putNumber("FrontLeft SteeringRelativePosition", m_frontLeft.getSteeringRelativePosition());
     SmartDashboard.putNumber("FrontLeft SteeringAbsolutePosition", m_frontLeft.getSteeringAbsolutePosition());
-    SmartDashboard.putNumber("Drive/Swerve/FrontRight/SteeringRelativePosition", m_frontRight.getSteeringRelativePosition());
+    SmartDashboard.putNumber("FrontLeft Driving Velocity", m_frontLeft.getDrivingVelocity());
+    SmartDashboard.putNumber("FrontRight DrivingRelativePosition", m_frontRight.getDrivingRelativePosition());
+    SmartDashboard.putNumber("FrontRight SteeringRelativePosition", m_frontRight.getSteeringRelativePosition());
     SmartDashboard.putNumber("FrontRight SteeringAbsolutePosition", m_frontRight.getSteeringAbsolutePosition());
-    SmartDashboard.putNumber("Drive/Swerve/RearLeft/SteeringRelativePosition", m_rearLeft.getSteeringRelativePosition());
+    SmartDashboard.putNumber("FrontRight Driving Velocity", m_frontRight.getDrivingVelocity());
+    SmartDashboard.putNumber("RearLeft DrivingRelativePosition", m_rearLeft.getDrivingRelativePosition());
+    SmartDashboard.putNumber("RearLeft SteeringRelativePosition", m_rearLeft.getSteeringRelativePosition());
     SmartDashboard.putNumber("RearLeft SteeringAbsolutePosition", m_rearLeft.getSteeringAbsolutePosition());
-    SmartDashboard.putNumber("Drive/Swerve/RearRight/SteeringRelativePosition", m_rearRight.getSteeringRelativePosition());
+        SmartDashboard.putNumber("RearLeft Driving Velocity", m_rearLeft.getDrivingVelocity());
+    SmartDashboard.putNumber("RearRight DrivingRelativePosition", m_rearRight.getDrivingRelativePosition());
+    SmartDashboard.putNumber("RearRight SteeringRelativePosition", m_rearRight.getSteeringRelativePosition());
     SmartDashboard.putNumber("RearRight SteeringAbsolutePosition", m_rearRight.getSteeringAbsolutePosition());
+    SmartDashboard.putNumber("RearRight Driving Velocity", m_rearRight.getDrivingVelocity());
+
     SmartDashboard.putNumber("Drive NavX Angle", m_gyro.getAngle());
     SmartDashboard.putNumber("Drive NavX Yaw", m_gyro.getYaw());
     SmartDashboard.putNumber("Drive NavX Pitch", m_gyro.getPitch());
-    SmartDashboard.putNumber("Front Left Relative Position", m_frontLeft.getDrivingRelativePosition());
-    SmartDashboard.putNumber("Front Left Velocity", m_frontLeft.getDrivingVelocity());
+  
   }
    
   public void updatePose() {
@@ -243,7 +251,9 @@ public class Swerve extends SubsystemBase {
   public double getDistanceMeters()
 	{
 		// return 0.0;
-		return Math.max(m_frontLeft.getDrivingRelativePosition(), m_frontRight.getDrivingRelativePosition());
+		return Math.max(
+      Math.max(Math.abs(m_frontLeft.getDrivingRelativePosition()), Math.abs(m_frontRight.getDrivingRelativePosition())),
+      Math.max(Math.abs(m_rearLeft.getDrivingRelativePosition()), Math.abs(m_rearRight.getDrivingRelativePosition())));
 	}
 
   private static double deadBand(double value, double deadband)

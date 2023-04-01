@@ -19,6 +19,9 @@ public class Intake extends SubsystemBase {
    public Intake() 
    {
         intakeMotor.configFactoryDefault();
+        intakeMotor.configPeakCurrentLimit(30);
+        intakeMotor.configContinuousCurrentLimit(20);
+
    }
 
    public void On(double speed)

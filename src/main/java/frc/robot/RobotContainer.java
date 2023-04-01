@@ -62,14 +62,17 @@ public class RobotContainer {
     m_driverController.a().onTrue(new InstantCommand(() -> m_swerve.resetEncoders(), m_swerve));
    
     //Arm
-    m_operatorController.povUp().whileTrue(new RunCommand(() -> m_arm.moveShoulder(0.5), m_arm))
-    .or(m_operatorController.povDown().whileTrue(new RunCommand(() -> m_arm.moveShoulder(-0.5), m_arm)))
+    m_operatorController.povUp().whileTrue(new RunCommand(() -> m_arm.moveShoulder(0.75), m_arm))
+    .or(m_operatorController.povDown().whileTrue(new RunCommand(() -> m_arm.moveShoulder(-0.75), m_arm)))
     .whileFalse(new RunCommand(() -> m_arm.moveShoulder(0), m_arm));
     
     //move extension back and forth
-    m_operatorController.leftBumper().whileTrue(new RunCommand(() -> m_arm.moveExtensionArm(0.5), m_arm))
-    .or(m_operatorController.rightBumper().whileTrue(new RunCommand(() -> m_arm.moveExtensionArm(-0.5), m_arm)))
+    m_operatorController.leftBumper().whileTrue(new RunCommand(() -> m_arm.moveExtensionArm(0.5), m_arm)) //takes in cube, removes cone
+    .or(m_operatorController.rightBumper().whileTrue(new RunCommand(() -> m_arm.moveExtensionArm(-0.5), m_arm))) //removes cube, takes in cone
     .whileFalse(new RunCommand(() -> m_arm.moveExtensionArm(0), m_arm));
+    
+
+    //m_operatorController.x().onTrue(new InstantCommand(() -> m_arm.getExtensionEncoder().setPosition(0), m_arm));
 
     //TODO: Fix Arm Angle Offsets in Arm.java first before uncommenting
     // m_operatorController.a().onTrue(new MoveToGoal(m_arm, Row.BOTTOM))
@@ -90,11 +93,11 @@ public class RobotContainer {
 
   private void addCommandDropdown()
   {
-    chooser.setDefaultOption("Drive To Distance", new DriveToDistance(Units.feetToMeters(7), m_swerve));
+    chooser.setDefaultOption("Drive To Distance", new DriveToDistance(Units.feetToMeters(12), m_swerve));
     chooser.addOption("Turn To Angle", new TurnToAngle(90, m_swerve));
     chooser.addOption("Score and Move to Charge Station", new MoveToChargeStation(m_swerve, m_arm, m_intake));
     chooser.addOption("Pickup game piece and score", new PickupAndScore(m_swerve, m_arm, m_intake));
-    chooser.addOption("Move to Hybrid", new MoveToGoal(m_arm, Row.BOTTOM));
+    chooser.addOption("Move to Hybrid", new MoveToGoal(m_arm, Row.HYBRID));
     chooser.addOption("Move to Middle", new MoveToGoal(m_arm, Row.MIDDLE));
     chooser.addOption("Move to High", new MoveToGoal(m_arm, Row.TOP));
     chooser.addOption("Move Arm up", new MoveToGoal(m_arm, Row.NONE));

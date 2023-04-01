@@ -13,12 +13,18 @@ public class DriveToDistance extends PIDCommand{
         super(
             new PIDController(1.15, 0, 0),
             m_swerve::getDistanceMeters,
-            distMeters + m_swerve.getDistanceMeters(),
+            distMeters,
             output -> m_swerve.drive(output, 0, 0, false),
             m_swerve
         );
 
         this.m_swerve = m_swerve;
+    }
+    
+    @Override
+    public void initialize()
+    {
+        m_swerve.resetEncoders();
     }
 
     @Override
@@ -30,5 +36,6 @@ public class DriveToDistance extends PIDCommand{
     @Override
     public void end(boolean interrupted) {
         m_swerve.drive(0, 0, 0, false);
+        m_swerve.resetEncoders();
     }
 }

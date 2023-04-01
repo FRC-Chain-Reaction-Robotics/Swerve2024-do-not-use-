@@ -36,32 +36,34 @@ public class Arm extends SubsystemBase {
 
         extensionMotor = new CANSparkMax(Constants.Arm.kExtensionMotorId, MotorType.kBrushless);
         
-        //rightMotor.follow(leftMotor, false);
 
         leftMotor.restoreFactoryDefaults();
         rightMotor.restoreFactoryDefaults();
         extensionMotor.restoreFactoryDefaults();
 
-        leftMotor.setInverted(true);
+        leftMotor.setInverted(false);
+        //rightMotor.setInverted(false);
         extensionMotor.setInverted(false);
         
-        leftMotor.setIdleMode(IdleMode.kCoast);
-        rightMotor.setIdleMode(IdleMode.kCoast);
+        leftMotor.setIdleMode(IdleMode.kBrake);
+        rightMotor.setIdleMode(IdleMode.kBrake);
         extensionMotor.setIdleMode(IdleMode.kBrake);
         
-        leftMotor.setSmartCurrentLimit(60, 40); // CHANGE THIS
+        leftMotor.setSmartCurrentLimit(60, 40); 
         rightMotor.setSmartCurrentLimit(60, 40);
-        extensionMotor.setSmartCurrentLimit(40, 30);
+        extensionMotor.setSmartCurrentLimit(30, 20);
         
-        leftEncoder = leftMotor.getEncoder();
+        // leftEncoder = leftMotor.getEncoder();
         extensionEncoder = extensionMotor.getEncoder();
         
-        leftEncoder.setPositionConversionFactor(Constants.Arm.kArmEncoderPositionFactor);
+        // leftEncoder.setPositionConversionFactor(Constants.Arm.kArmEncoderPositionFactor);
         // TODO: Calculate this factor "solve for average radius";
         extensionEncoder.setPositionConversionFactor(Constants.Arm.kArmLengthConversionFactor);
 
-        leftEncoder.setVelocityConversionFactor(Constants.Arm.kArmEncoderVelocityFactor);
-        extensionEncoder.setVelocityConversionFactor(Constants.Arm.kArmEncoderVelocityFactor);
+        // leftEncoder.setVelocityConversionFactor(Constants.Arm.kArmEncoderVelocityFactor);
+        extensionEncoder.setVelocityConversionFactor(Constants.Arm.kArmLengthVelocityFactor);
+
+        //extensionEncoder.setPosition(0);
 
         leftPIDController = leftMotor.getPIDController();
         extensionPIDController = extensionMotor.getPIDController();
@@ -76,9 +78,10 @@ public class Arm extends SubsystemBase {
         extensionPIDController.setD(1.5);
         //extensionPIDController.setFF(0.1);
        
-        liftThroughBEncoder = leftMotor.getAbsoluteEncoder(Type.kDutyCycle);  //  TODO: what?? doesn't this need 4 dio ports NOO! It needs an adapter board for the sparkmaxes data port       
-        liftThroughBEncoder.setInverted(true);
-        
+        liftThroughBEncoder = rightMotor.getAbsoluteEncoder(Type.kDutyCycle);  //  TODO: what?? doesn't this need 4 dio ports NOO! It needs an adapter board for the sparkmaxes data port       
+        liftThroughBEncoder.setInverted(false);
+        liftThroughBEncoder.setZeroOffset(0.25);
+
     
 
         leftMotor.burnFlash();
@@ -101,11 +104,24 @@ public class Arm extends SubsystemBase {
     }
 
     public void moveShoulder(double speed) {
+
+        boolean cantGoDown = liftThroughBEncoder.getPosition() <= 0.007 && speed < 0;
+        boolean cantGoUp = liftThroughBEncoder.getPosition() >= 0.25 && speed > 0;
+
+        if (cantGoUp || cantGoDown)
+            speed = 0;
+        
         leftMotor.set(speed);
         rightMotor.set(speed);     
     }
 
     public void moveExtensionArm(double speed) {
+
+        boolean cantGoDown = extensionEncoder.getPosition() <= 0 && speed < 0;
+        boolean cantGOUp = extensionEncoder.getPosition() >= Constants.Arm.kMaxExtensionEncoderTicks && speed > 0;
+
+        if (cantGoDown || cantGOUp)
+             speed = 0;
         extensionMotor.set(speed);
     }
     

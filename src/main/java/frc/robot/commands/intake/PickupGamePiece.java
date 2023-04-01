@@ -12,7 +12,7 @@ public class PickupGamePiece extends PIDCommand
     {
         super(new PIDController(1, 0, 0),
         m_intake::getSelectedSensorPosition, 
-        m_intake.getSelectedSensorPosition() + 1,
+        m_intake.getSelectedSensorPosition() - 2,
         output -> m_intake.On(output), 
         m_intake);
 
@@ -22,7 +22,7 @@ public class PickupGamePiece extends PIDCommand
     // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    
   }
 
 
@@ -30,7 +30,7 @@ public class PickupGamePiece extends PIDCommand
   @Override
   public void end(boolean interrupted) 
   {
-    m_intake.Off();
+    m_intake.On(0);
   }
 
   // Returns true when the command should end.

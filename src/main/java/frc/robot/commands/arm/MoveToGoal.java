@@ -20,7 +20,7 @@ public class MoveToGoal extends CommandBase {
     private double m_extend_setpoint;
     private boolean extended;
 
-    public static enum Row{BOTTOM, MIDDLE, TOP, GROUND, NONE}
+    public static enum Row{HYBRID, MIDDLE, TOP, GROUND, NONE}
     
     public MoveToGoal(Arm m_arm, Row row, boolean extended) {
        
@@ -35,7 +35,7 @@ public class MoveToGoal extends CommandBase {
         switch (row)
         //Tune setpoints manually
         {
-            case BOTTOM:
+            case HYBRID:
                 m_angle_setpoint = Constants.Arm.kBottomAngle;
                 m_extend_setpoint = Constants.Arm.kBottomLength;
                 break;
@@ -54,6 +54,7 @@ public class MoveToGoal extends CommandBase {
                 break;
             case NONE:
                 m_angle_setpoint = 0.225;
+                m_extend_setpoint = 0;
                 break;
                 
             // case PLAYER_STATION:

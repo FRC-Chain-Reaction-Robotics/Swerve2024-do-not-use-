@@ -12,7 +12,7 @@ public class ReleaseGamePiece extends PIDCommand
     {
         super(new PIDController(1, 0, 0),
         m_intake::getSelectedSensorPosition, 
-        m_intake.getSelectedSensorPosition() + 1,
+        m_intake.getSelectedSensorPosition() - 2,
         output -> m_intake.Reverse(output), 
         m_intake);
 
@@ -30,7 +30,7 @@ public class ReleaseGamePiece extends PIDCommand
   @Override
   public void end(boolean interrupted) 
   {
-    m_intake.Off();
+    m_intake.Reverse(0);
   }
 
   // Returns true when the command should end.

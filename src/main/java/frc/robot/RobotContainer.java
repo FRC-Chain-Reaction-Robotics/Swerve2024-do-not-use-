@@ -60,6 +60,7 @@ public class RobotContainer {
     //DRIVER
     m_driverController.y().onTrue(new InstantCommand(() -> m_swerve.zeroHeading(), m_swerve));
     m_driverController.a().onTrue(new InstantCommand(() -> m_swerve.resetEncoders(), m_swerve));
+    m_driverController.x().onTrue(new InstantCommand(() -> m_swerve.setX(), m_swerve));
    
     //Arm
     m_operatorController.povUp().whileTrue(new RunCommand(() -> m_arm.moveShoulder(0.75), m_arm))
@@ -81,8 +82,8 @@ public class RobotContainer {
     
     //slow mode for right bumper, medium slow for left bumper
     m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve))
-    .or(m_driverController.leftBumper().onTrue(new InstantCommand(() -> m_swerve.fastMode(), m_swerve)))
-    .onFalse(new InstantCommand(() -> m_swerve.mediumMode(), m_swerve));
+    .or(m_driverController.leftBumper().onTrue(new InstantCommand(() -> m_swerve.mediumMode(), m_swerve)))
+    .onFalse(new InstantCommand(() -> m_swerve.fastMode(), m_swerve));
 
     //Intake Button
     m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> m_intake.On(1), m_intake))

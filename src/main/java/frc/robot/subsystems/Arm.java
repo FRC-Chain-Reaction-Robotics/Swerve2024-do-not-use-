@@ -105,11 +105,11 @@ public class Arm extends SubsystemBase {
 
     public void moveShoulder(double speed) {
 
-        boolean cantGoDown = liftThroughBEncoder.getPosition() <= 0.007 && speed < 0;
-        boolean cantGoUp = liftThroughBEncoder.getPosition() >= 0.25 && speed > 0;
+        // boolean cantGoDown = liftThroughBEncoder.getPosition() <= -0.0003 && speed < 0;
+        // boolean cantGoUp = liftThroughBEncoder.getPosition() >= 0.25 && speed > 0;
 
-        if (cantGoUp || cantGoDown)
-            speed = 0;
+        // if (cantGoUp || cantGoDown)
+        //     speed = 0;
         
         leftMotor.set(speed);
         rightMotor.set(speed);     

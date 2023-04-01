@@ -1,6 +1,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import frc.robot.Constants;
 import frc.robot.subsystems.Swerve;
@@ -17,6 +18,8 @@ public class DriveToDistance extends PIDCommand{
             output -> m_swerve.drive(output, 0, 0, false),
             m_swerve
         );
+        
+        getController().setTolerance(Units.inchesToMeters(5));
 
         this.m_swerve = m_swerve;
     }

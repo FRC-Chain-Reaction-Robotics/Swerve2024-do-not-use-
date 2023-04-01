@@ -215,4 +215,9 @@ public class SwerveModule {
     m_drivingSparkMax.setSmartCurrentLimit(Constants.SwerveModule.kDrivingMotorCurrentLimit);
     m_turningSparkMax.setSmartCurrentLimit(Constants.SwerveModule.kTurningMotorCurrentLimit);
   }
+
+  public RelativeEncoder getTurningEncoder()
+  {
+    return  m_turningEncoder;
+  }
 }

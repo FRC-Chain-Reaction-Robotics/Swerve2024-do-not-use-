@@ -73,7 +73,7 @@ public class Swerve extends SubsystemBase {
   private final Field2d m_fieldSim = new Field2d();
   
   //Medium Speed
-  public static final double output = 0.7;
+  public static final double output = 1;
 
   public static double m_output = output;
 
@@ -171,7 +171,7 @@ public class Swerve extends SubsystemBase {
     m_rearLeft.evilMode();
     m_rearRight.evilMode();
 
-		m_output = output;
+		m_output = 0.5;
   }
 
   public void fastMode()
@@ -181,7 +181,7 @@ public class Swerve extends SubsystemBase {
     m_rearLeft.goodMode();
     m_rearRight.goodMode();
 
-		m_output = 1;
+		m_output = output;
   }
 
   /**
@@ -338,6 +338,13 @@ public class Swerve extends SubsystemBase {
     m_rearRight.setDesiredState(new SwerveModuleState(0, m_rearRight.getState().angle));
   }
 
+  public void setToCurrentPosition()
+  {
+    m_frontLeft.getTurningEncoder().setPosition(Math.toRadians(m_frontLeft.getSteeringAbsolutePosition()));
+    m_frontRight.getTurningEncoder().setPosition(Math.toRadians(m_frontRight.getSteeringAbsolutePosition()));
+    m_rearLeft.getTurningEncoder().setPosition(Math.toRadians(m_rearLeft.getSteeringAbsolutePosition()));
+    m_rearRight.getTurningEncoder().setPosition(Math.toRadians(m_rearRight.getSteeringAbsolutePosition()));
+  }
   // private static ChassisSpeeds fieldRelativeSpeeds(double vxMetersPerSecond,
   // double vyMetersPerSecond,
   // double omegaRadiansPerSecond,

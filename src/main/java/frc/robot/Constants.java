@@ -105,25 +105,25 @@ public class Constants {
         public static final int kFrontLeftDrivingCanId = 8;
         public static final int kFrontLeftTurningCanId = 5;
         public static final int kFrontLeftCanCoderId = 14;
-        public static final double kFrontLeftChassisAngularOffset = Math.toRadians(272.549);   //   epic
+        public static final double kFrontLeftChassisAngularOffset = Math.toRadians(277.725);   //   epic
         
         //Front Right Module
         public static final int kFrontRightDrivingCanId = 4; 
         public static final int kFrontRightTurningCanId = 2;
         public static final int kFrontRightCanCoderId = 61;
-        public static final double kFrontRightChassisAngularOffset = Math.toRadians(53.701);
+        public static final double kFrontRightChassisAngularOffset = Math.toRadians(52.207);
         
          //Back Left Module
         public static final int kBackLeftDrivingCanId = 10;
         public static final int kBackLeftTurningCanId = 1;
         public static final int kBackLeftCanCoderId = 60;
-        public static final double kBackLeftChassisAngularOffset = Math.toRadians(269.473); // manually zeroed
+        public static final double kBackLeftChassisAngularOffset = Math.toRadians(269.824); // manually zeroed
         
         //Back Right Module
         public static final int kBackRightDrivingCanId = 7;
         public static final int kBackRightTurningCanId = 3;
         public static final int kBackRightCanCoderId = 62;
-        public static final double kBackRightChassisAngularOffset = Math.toRadians(339.697);
+        public static final double kBackRightChassisAngularOffset = Math.toRadians(337.676);
 
         public static final boolean kGyroReversed = false;
       }
@@ -165,9 +165,9 @@ public class Constants {
         public static final double kTurningAnalogPositionFactor = (Math.PI * 2 / 3.3);
         public static final double kTurningAnalogVelocityFactor = (kTurningAnalogPositionFactor/60);
         
-        public static final double kDrivingP = 0.1;
+        public static final double kDrivingP = 0.15;
         public static final double kDrivingI = 0;
-        public static final double kDrivingD = 0.01;
+        public static final double kDrivingD = 0.015;
         public static final double kDrivingFF = 1 / kDriveWheelFreeSpeedRps;
         public static final double kDrivingMinOutput = -1;
         public static final double kDrivingMaxOutput = 1;

@@ -13,17 +13,19 @@ public class DriveToDistance extends PIDCommand{
     {
         super(
             new PIDController(1.15, 0, 0),
-            m_swerve::getDistanceMeters,
-            distMeters,
-            output -> m_swerve.drive(output, 0, 0, false),
+            m_swerve::getDistanceMeters, ////what is being measured
+            distMeters, ////where you want to be
+            output -> m_swerve.drive(output, 0, 0, false), ////the output to get to distMeters
             m_swerve
         );
         
-        getController().setTolerance(Units.inchesToMeters(5));
+        ////sets tolerable error
+        getController().setTolerance(Units.inchesToMeters(5)); 
 
         this.m_swerve = m_swerve;
     }
     
+    //when
     @Override
     public void initialize()
     {

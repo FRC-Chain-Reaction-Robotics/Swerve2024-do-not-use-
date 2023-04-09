@@ -22,43 +22,58 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
+////indicates intentional annotations made by the Chain Reaction Robotics team
+//indicates code
+// indicates annotations made by the LadyCans
+
 public class SwerveModule {
-  private final CANSparkMax m_drivingSparkMax;
-  private final CANSparkMax m_turningSparkMax;
 
-  private final RelativeEncoder m_drivingEncoder;
-  private final RelativeEncoder m_turningEncoder;
-  private final CANCoder m_canCoder;
+  ////CANSparkMax motor controllers, ID them on REV Hardware Client or SparkMax Client
+  private final CANSparkMax m_drivingSparkMax; ////controls driving on a swerve module
+  private final CANSparkMax m_turningSparkMax; ////controls turning on a swerve module
 
-  private final SparkMaxPIDController m_drivingPIDController;
-  private final SparkMaxPIDController m_turningPIDController;
+  private final RelativeEncoder m_drivingEncoder; ////encoder for driving
+  private final RelativeEncoder m_turningEncoder; ////encoder for turning
+  private final CANCoder m_canCoder; ////another turning encoder for the absolute position, ID on phoenix tuner
 
-  private double m_chassisAngularOffset = 0;
+  ////PID means Proportional Integral Derivative; uses an equation; accounts for "close enough"
+  ////formula is u(t) = kP(e(t)) + integral(e(t)dt)
+  private final SparkMaxPIDController m_drivingPIDController; ////PID for driving
+  private final SparkMaxPIDController m_turningPIDController; ////PID for turning
+
+  private double m_chassisAngularOffset = 0; ////allows individual wheels to offset correctly
+
+  ////SwerveModuleState objects stores the desired speed and angle for your wheels
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
+  
+  ////allows you to apply settings you made to the cancoder
   private CANCoderConfiguration config = new CANCoderConfiguration();
-  //private double m_drivingCANId;
+  
   /**
    * Constructs a MAXSwerveModule and configures the driving and turning motor,
    * encoder, and PID controller. This configuration is specific to the REV
    * MAXSwerve Module built with NEOs, SPARKS MAX, and a Through Bore
    * Encoder.
+   * @param drivingCANId the ID for the drive controller
+   * @param turningCANId the ID for the turn controller
+   * @param canCoderCANId the ID for the cancoder
+   * @param chassisAngularOffset the offset to make the wheels face forward
    */
   public SwerveModule(int drivingCANId, int turningCANId, int canCoderCANId, double chassisAngularOffset) {
     config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
+
+    ////boots the wheel to its current position rather than zero
     config.initializationStrategy = SensorInitializationStrategy.BootToAbsolutePosition;
-    //config.magnetOffsetDegrees = Math.toDegrees(chassisAngularOffset);
     
     m_drivingSparkMax = new CANSparkMax(drivingCANId, MotorType.kBrushless);
     m_turningSparkMax = new CANSparkMax(turningCANId, MotorType.kBrushless);
-
-   // m_drivingCANId = drivingCANId;
 
     // Factory reset, so we get the SPARKS MAX to a known state before configuring
     // them. This is useful in case a SPARK MAX is swapped out.
     m_drivingSparkMax.restoreFactoryDefaults();
     m_turningSparkMax.restoreFactoryDefaults();
 
-    // SDS Module is inverted relative to the MAXSwerve
+    //// SDS Module is inverted relative to the MAXSwerve
     m_drivingSparkMax.setInverted(true);;
     m_turningSparkMax.setInverted(true);;
 

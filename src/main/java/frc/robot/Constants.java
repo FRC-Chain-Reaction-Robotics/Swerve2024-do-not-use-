@@ -73,6 +73,9 @@ public class Constants {
     public static final class Swerve {
         // Driving Parameters - Note that these are not the maximum capable speeds of
         // the robot, rather the allowed maximum speeds
+        // Measure from CANcoder to CANcoder, as they are the center of the wheels
+        // Change these!
+
         // measured 3/21/23
         public static final double kTrackWidth = Units.inchesToMeters(13.3);
         // Distance between centers of right and left wheels on robot
@@ -94,6 +97,10 @@ public class Constants {
         public static final double kMaxAngularAccel = kMaxAccel/Math.hypot(kTrackWidth/2.0, kWheelBase/2.0);
         // Chassis configuration
         
+
+        ////Translation2d's are the x and y coordinates relative to your gyro. In this instance, 
+        ////the four Translation2d objects are the coordinates of your four swerve modules
+        //// x is front and back and y is left and right
         public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
             new Translation2d(kWheelBase / 2, kTrackWidth / 2),
             new Translation2d(kWheelBase / 2, -kTrackWidth / 2),

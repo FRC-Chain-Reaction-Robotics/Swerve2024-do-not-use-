@@ -36,19 +36,19 @@ public class Swerve extends SubsystemBase {
       Constants.Swerve.kFrontLeftCanCoderId,
       Constants.Swerve.kFrontLeftChassisAngularOffset);
 
-  private final SwerveModule m_frontRight = new  SwerveModule(
+  private final SwerveModule m_frontRight = new SwerveModule(
       Constants.Swerve.kFrontRightDrivingCanId,
       Constants.Swerve.kFrontRightTurningCanId,
       Constants.Swerve.kFrontRightCanCoderId, 
       Constants.Swerve.kFrontRightChassisAngularOffset);
 
-  private final SwerveModule m_rearLeft = new  SwerveModule(
+  private final SwerveModule m_rearLeft = new SwerveModule(
       Constants.Swerve.kBackLeftDrivingCanId,
       Constants.Swerve.kBackLeftTurningCanId,
       Constants.Swerve.kBackLeftCanCoderId,
       Constants.Swerve.kBackLeftChassisAngularOffset);
 
-  private final SwerveModule m_rearRight = new  SwerveModule(
+  private final SwerveModule m_rearRight = new SwerveModule(
       Constants.Swerve.kBackRightDrivingCanId,
       Constants.Swerve.kBackRightTurningCanId,
       Constants.Swerve.kBackRightCanCoderId, 
@@ -59,6 +59,7 @@ public class Swerve extends SubsystemBase {
 
   // public PhotonCameraWrapper m_photonCamera;
 
+  //Functions the same as SwerveDriveOdometry
   private final SwerveDrivePoseEstimator m_poseEstimator = 
     new SwerveDrivePoseEstimator(
       Constants.Swerve.kDriveKinematics, 

@@ -37,13 +37,15 @@ public class SwerveModule {
   private final CANCoder m_canCoder; ////another turning encoder for the absolute position, ID on phoenix tuner
 
   ////PID means Proportional Integral Derivative; uses an equation; accounts for "close enough"
-  ////formula is u(t) = kP(e(t)) + integral(e(t)dt)
+  ////formula is u(t) = kP(e(t)) + kI(integral 0 to t of (e(t)dt)) + kD(d(e(t))/dt), 
+  ////tuning integral constant NOT recommended
   private final SparkMaxPIDController m_drivingPIDController; ////PID for driving
   private final SparkMaxPIDController m_turningPIDController; ////PID for turning
 
   private double m_chassisAngularOffset = 0; ////allows individual wheels to offset correctly
 
-  ////SwerveModuleState objects stores the desired speed and angle for your wheels
+  ////SwerveModuleState objects stores the desired speed in meters per second and angle in radians for your wheels
+  ////Used to help set your wheels running at a certain speed in a direction
   private SwerveModuleState m_desiredState = new SwerveModuleState(0.0, new Rotation2d());
   
   ////allows you to apply settings you made to the cancoder
@@ -73,7 +75,7 @@ public class SwerveModule {
     m_drivingSparkMax.restoreFactoryDefaults();
     m_turningSparkMax.restoreFactoryDefaults();
 
-    //// SDS Module is inverted relative to the MAXSwerve
+    // SDS Module is inverted relative to the MAXSwerve
     m_drivingSparkMax.setInverted(true);;
     m_turningSparkMax.setInverted(true);;
 
@@ -126,6 +128,8 @@ public class SwerveModule {
 
     m_drivingSparkMax.setIdleMode(Constants.SwerveModule.kDrivingMotorIdleMode);
     m_turningSparkMax.setIdleMode(Constants.SwerveModule.kTurningMotorIdleMode);
+
+    //// Set the current limit to avoid current spikes so you wont damage the motor
     m_drivingSparkMax.setSmartCurrentLimit(Constants.SwerveModule.kDrivingMotorCurrentLimit);
     m_turningSparkMax.setSmartCurrentLimit(Constants.SwerveModule.kTurningMotorCurrentLimit);
 
@@ -137,9 +141,9 @@ public class SwerveModule {
     // This allows time for the absolute position to be sent by the CANcoder (we know this isn't the best solution, we'll fix it later)
     Timer.delay(1);
 
-    // This is commented out because it is already being calculated by the CANcoder
+    // CANcoder angle is measured in degrees so we need to convert that into radians
     m_chassisAngularOffset = chassisAngularOffset; 
-    m_desiredState.angle = new Rotation2d(Math.toRadians(m_canCoder.getAbsolutePosition()));
+    m_desiredState.angle = Rotation2d.fromDegrees(m_canCoder.getAbsolutePosition());
     m_drivingEncoder.setPosition(0);
     m_turningEncoder.setPosition(Math.toRadians(m_canCoder.getAbsolutePosition()));
     

@@ -73,11 +73,12 @@ public class Swerve extends SubsystemBase {
 
   private final Field2d m_fieldSim = new Field2d();
   
-  //Medium Speed
+  //Default Speed
   public static final double output = 1;
 
   public static double m_output = output;
 
+  //limits the acceleration of the x, y, and rotational speeds
   public SlewRateLimiter xLimiter = new SlewRateLimiter(Constants.Swerve.kMaxAccel);
   public SlewRateLimiter yLimiter = new SlewRateLimiter(Constants.Swerve.kMaxAccel);
   public SlewRateLimiter rotLimiter = new SlewRateLimiter(Constants.Swerve.kMaxAngularAccel);
@@ -122,6 +123,7 @@ public class Swerve extends SubsystemBase {
   
   }
    
+  //updates the pose periodically
   public void updatePose() {
     m_poseEstimator.update(
       m_gyro.getRotation2d(), 
@@ -219,6 +221,7 @@ public class Swerve extends SubsystemBase {
     // ySpeed *= Constants.Swerve.kMaxSpeedMetersPerSecond;
     // rot *= Constants.Swerve.kMaxAngularSpeed;
 
+    //multiply by output to change the speed, useful for slow mode or medium slow mode
     xSpeed *= m_output;
     ySpeed *= m_output;
     rot *= m_output;
@@ -231,18 +234,23 @@ public class Swerve extends SubsystemBase {
     // double deadbandRot = 2 * Math.PI / 9.45;
     // rot = deadBand(rot, deadbandRot);
 
+    //returns the modified speed if rate of change is above maximum
     xSpeed = xLimiter.calculate(xSpeed);
     ySpeed = yLimiter.calculate(ySpeed);
     rot = rotLimiter.calculate(rot);
 
+    //converts your desired chassis speeds into the appropriate speed and angles 
+    //for each swerve module with the given kinematics
     var swerveModuleStates = Constants.Swerve.kDriveKinematics.toSwerveModuleStates(
-        //We changed the fromDegrees() argument from m_gryo.getAngle() and added the Math.IEEEremainder from the 0 to Auton
-        //The NavX 
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(-m_gyro.getAngle()))
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
+
+    //limits the wheel speeds
     SwerveDriveKinematics.desaturateWheelSpeeds(
         swerveModuleStates, Constants.Swerve.kMaxSpeedMetersPerSecond);
+    
+    //sets these wheels to the desired speed and angle
     m_frontLeft.setDesiredState(swerveModuleStates[2]);
     m_frontRight.setDesiredState(swerveModuleStates[3]);
     m_rearLeft.setDesiredState(swerveModuleStates[0]);

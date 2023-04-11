@@ -187,13 +187,15 @@ public class SwerveModule {
 
     
 
-    // Optimize the reference state to avoid spinning further than 90 degrees.
+    // Optimize the reference state to avoid spinning further than 90 degrees (allow shortcuts for the wheels to turn to).
     SwerveModuleState optimizedDesiredState = SwerveModuleState.optimize(correctedDesiredState,
         new Rotation2d(m_turningEncoder.getPosition()));
 
     // Command driving and turning SPARKS MAX towards their respective setpoints.
     m_drivingPIDController.setP(Constants.SwerveModule.kDrivingP);
     m_drivingPIDController.setD(Constants.SwerveModule.kDrivingD);
+
+    //another way to run your motors. first parameter is the value, second parameter is the control type
     m_drivingPIDController.setReference(optimizedDesiredState.speedMetersPerSecond, CANSparkMax.ControlType.kVelocity);
     m_turningPIDController.setReference(optimizedDesiredState.angle.getRadians(), CANSparkMax.ControlType.kPosition);
 

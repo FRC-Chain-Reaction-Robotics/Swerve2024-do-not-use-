@@ -1,5 +1,3 @@
-# 2023RobotDrive
+Swerve drive for 2024 season
 
-[![CI](https://github.com/frc2881/2023RobotDrive/actions/workflows/main.yml/badge.svg)](https://github.com/frc2881/2023RobotDrive/actions/workflows/main.yml) [![Spotless](https://github.com/frc2881/2023RobotDrive/actions/workflows/spotless.yml/badge.svg)](https://github.com/frc2881/2023RobotDrive/actions/workflows/spotless.yml)
-
-Java source code for the FRC competition robot!
+Look at ExampleSubsystem and ExampleCommand to understand how a basic subsystem and command works

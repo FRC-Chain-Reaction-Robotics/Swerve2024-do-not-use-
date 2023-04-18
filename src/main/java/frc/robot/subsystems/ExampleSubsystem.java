@@ -7,6 +7,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ExampleSubsystem extends SubsystemBase {
+
+  //Add instance fields for stuff that are part of your subsystem
+  //(i.e. SparkMaxes, compressor, solenoid, etc)
+
   /** Creates a new ExampleSubsystem. */
   public ExampleSubsystem() {}
 

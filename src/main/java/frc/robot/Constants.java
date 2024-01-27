@@ -58,17 +58,23 @@ public class Constants {
         public static final double kMiddleAngle = .3;
         public static final double kTopAngle = .4;
 
-
+        //TODO: Update this MotorID to match the arm
         public static final int kRightMotorId = 9;
-        public static final int kLeftMotorId = 6;
         public static final int kExtensionMotorId = 11;
         public static final double armEncoderOffset = .225;
     }
 
-    public static final class Clamps {
+    //TODO: Finish the winches class
+
+    /* Winches should basically be activated when the driver presses one button and the robot automatically pulls itself up */
+    public static final class Winches {
+    
+    //TODO: Update the motorID with the correct ones in the winches
+    public static final int kRightMotorID = 4;
+    public static final int kLeftMotorID = 5;
+
 
     }
-
 
     public static final class Swerve {
         // Driving Parameters - Note that these are not the maximum capable speeds of
@@ -251,6 +257,7 @@ public class Constants {
 
     //   }
 
+    //TODO: Finish the vision class for apriltags
       public static final class Vision {
         public static AprilTagFieldLayout kAprilTagFieldLayout = null;
         static {
@@ -261,6 +268,7 @@ public class Constants {
             }
         }
 
+        //TODO: Change the Camera Name
         public static final String kCameraName = "gloworm";
         public static final Transform3d kRobotToCamera =
             new Transform3d(

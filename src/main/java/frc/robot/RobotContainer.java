@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.auto.DriveToDistance;
 import frc.robot.commands.auto.TurnToAngle;
 import frc.robot.commands.drive.DriveWithJoysticks;
+import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.Swerve;
 
 
@@ -22,6 +23,9 @@ public class RobotContainer {
 
   private final SendableChooser<Command> chooser = new SendableChooser<Command>();
   private Swerve m_swerve = new Swerve();
+
+  // Subsystem creation
+  private final PneumaticsSubsystem m_PneumaticsSubsystem = new PneumaticsSubsystem();
 
   private final CommandXboxController m_driverController = new CommandXboxController(Constants.Controllers.kDriverControllerPort);
   //private final CommandXboxController m_operatorController = new CommandXboxController(Constants.Controllers.kOperatorControllerPort);
@@ -32,6 +36,7 @@ public class RobotContainer {
     configureButtonBindings();
     //Creating a dropdown for autonomous commands to choose from
     addCommandDropdown();
+    
   }
 
   private void setupDrive() {
@@ -50,6 +55,9 @@ public class RobotContainer {
     m_driverController.y().onTrue(new InstantCommand(() -> m_swerve.zeroHeading(), m_swerve));
     m_driverController.a().onTrue(new InstantCommand(() -> m_swerve.resetEncoders(), m_swerve));
     m_driverController.x().onTrue(new InstantCommand(() -> m_swerve.setX(), m_swerve));
+
+    // Triggers solenoid on press of button b.
+    m_driverController.b().onTrue(new InstantCommand(() -> m_PneumaticsSubsystem.toggle()));
    
 
     //m_operatorController.x().onTrue(new InstantCommand(() -> m_arm.getExtensionEncoder().setPosition(0), m_arm));

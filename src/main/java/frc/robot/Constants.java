@@ -2,7 +2,7 @@
 //
 // Open Source Software; you can modify and/or share it under the terms of BSD
 // license file in the root directory of this project.
-
+/* Github testing */
 package frc.robot;
 
 import java.io.IOException;
@@ -37,6 +37,7 @@ public class Constants {
     }
     
     public static final class Arm {
+        //TODO: Change the arm length
         public static final double kArmlength = Units.inchesToMeters(28.25);
         public static final double kArmlengthExtended = Units.inchesToMeters(40);
         public static final double kArmReduction = 1;
@@ -58,17 +59,27 @@ public class Constants {
         public static final double kMiddleAngle = .3;
         public static final double kTopAngle = .4;
 
-
+        //TODO: Update this MotorID to match the arm
         public static final int kRightMotorId = 9;
-        public static final int kLeftMotorId = 6;
         public static final int kExtensionMotorId = 11;
         public static final double armEncoderOffset = .225;
     }
 
-    public static final class Clamps {
+    /* Winches should basically be activated when the driver presses one button and the robot automatically pulls itself up */
+    public static final class Winches {
+    
+    //TODO: Update the motorID with the correct ones in the winches
+    public static final int kRightWinchMotorID = 4;
+    public static final int kLeftWinchMotorID = 5;
+    
+    //TODO: The inches is just a placeholder, need to measure how much it should realistically extend after robot is built
+    public static final double kWinchLength = Units.inchesToMeters(30);
 
+    //TODO: The inches the robot pulls itself up
+    public static final double kWinchPull = Units.inchesToMeters(40);
+    
+    /* Just as a precaution we might need to make sure the robot isn't driving before the button is pressed*/
     }
-
 
     public static final class Swerve {
         // Driving Parameters - Note that these are not the maximum capable speeds of
@@ -77,6 +88,7 @@ public class Constants {
         // Change these!
 
         // measured 3/21/23
+        //TODO: Change the swerve dimentions
         public static final double kTrackWidth = Units.inchesToMeters(13.3);
         // Distance between centers of right and left wheels on robot
         // measured 3/21/23
@@ -193,12 +205,53 @@ public class Constants {
         public static final int kTurningMotorCurrentLimit = 30; // amps
       }
 
+
       public static final class Intake {
+
+        //TODO: Match the correct Motor ID and intakeSpeed
         public static final int kIntakeMotorId = 12;
+
+        public static final double kIntakeSpeed = .6;
+      }
+
+      public static final class Shooter {
+
+        //TODO: Change the motor IDs and the shooter speed
+        public static final int kRightShooterMotorID = 4;
+        public static final int kLeftShooterMotorID = 2;
+
+        public static final double kShooterSpeed = .6;
+
+
       }
 
 
-    // public static final class Suction {
+    //TODO: Finish the vision class for apriltags
+      public static final class Vision {
+        public static AprilTagFieldLayout kAprilTagFieldLayout = null;
+        static {
+            try {
+                kAprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        //TODO: Change the Camera Name
+        public static final String kCameraName = "gloworm";
+        public static final Transform3d kRobotToCamera =
+            new Transform3d(
+                new Translation3d(0.5, 0.0, 0.5),
+                new Rotation3d(0, 0,0)); 
+
+        // public static final String kRightCameraName = "RIGHT";
+        // public static final Transform3d kRightRobotToCamera =
+        //     new Transform3d(
+        //         new Translation3d(0.5, 0.0, 0.5),
+        //         new Rotation3d(0, 0,0)); 
+
+      }
+         // public static final class Suction {
     //     /**
     //      * The CAN ID of the first suction motor.
     //      */
@@ -250,29 +303,5 @@ public class Constants {
     //     public static final double kMinimumPressure = 20;
 
     //   }
-
-      public static final class Vision {
-        public static AprilTagFieldLayout kAprilTagFieldLayout = null;
-        static {
-            try {
-                kAprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        public static final String kCameraName = "gloworm";
-        public static final Transform3d kRobotToCamera =
-            new Transform3d(
-                new Translation3d(0.5, 0.0, 0.5),
-                new Rotation3d(0, 0,0)); 
-
-        // public static final String kRightCameraName = "RIGHT";
-        // public static final Transform3d kRightRobotToCamera =
-        //     new Transform3d(
-        //         new Translation3d(0.5, 0.0, 0.5),
-        //         new Rotation3d(0, 0,0)); 
-
-      }
 
 }

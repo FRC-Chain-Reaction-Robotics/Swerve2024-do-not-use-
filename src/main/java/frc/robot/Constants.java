@@ -89,7 +89,7 @@ public class Constants {
 
         // measured 3/21/23
         //TODO: Change the swerve dimentions
-        public static final double kTrackWidth = Units.inchesToMeters(13.3);
+        public static final double kTrackWidth = Units.inchesToMeters(21.5);
         // Distance between centers of right and left wheels on robot
         // measured 3/21/23
         public static final double kWheelBase = Units.inchesToMeters(23.5);
@@ -120,7 +120,7 @@ public class Constants {
             new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
         // Swerve Module IDs
 
-        //Front Left Module
+        //TODO: Front Left Module
         public static final int kFrontLeftDrivingCanId = 8;
         public static final int kFrontLeftTurningCanId = 5;
         public static final int kFrontLeftCanCoderId = 14;
@@ -228,9 +228,10 @@ public class Constants {
 
     //TODO: Finish the vision class for apriltags
       public static final class Vision {
-        public static AprilTagFieldLayout kAprilTagFieldLayout = null;
+       /* public static AprilTagFieldLayout kAprilTagFieldLayout = null;
         static {
             try {
+                //TODO: Change the AprilTagFields to updated version bc the k2023ChargedUp does not work with 2023.1.1 for gradle
                 kAprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -242,7 +243,7 @@ public class Constants {
         public static final Transform3d kRobotToCamera =
             new Transform3d(
                 new Translation3d(0.5, 0.0, 0.5),
-                new Rotation3d(0, 0,0)); 
+                new Rotation3d(0, 0,0));  */
 
         // public static final String kRightCameraName = "RIGHT";
         // public static final Transform3d kRightRobotToCamera =

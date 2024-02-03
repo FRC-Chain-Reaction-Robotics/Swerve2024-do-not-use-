@@ -18,6 +18,9 @@ import frc.robot.commands.drive.DriveWithJoysticks;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.Swerve;
 import frc.robot.subsystems.Winch;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Intake;
 
 
 public class RobotContainer {
@@ -32,6 +35,9 @@ public class RobotContainer {
   private final CommandXboxController m_operatorController = new CommandXboxController(Constants.Controllers.kOperatorControllerPort);
 
   private Winch m_winch = new Winch();
+  private Shooter m_shooter = new Shooter();
+  private Arm m_arm = new Arm();
+  private Intake m_intake = new Intake();
 
   
   public RobotContainer() {
@@ -71,6 +77,9 @@ public class RobotContainer {
     // .or(m_operatorController.y().onTrue(new MoveToGoal(m_arm, Row.TOP)));
 
     m_winch.setDefaultCommand(new RunCommand(() -> m_winch.winchExtend(m_operatorController)));
+    
+    //onTrue() can be changed to whileTrue() if we were to hold the button to shoot
+    m_operatorController.rightStick().onTrue(new InstantCommand(() -> m_shooter.cherryBomb()));
     
     //slow mode for right bumper, medium slow for left bumper
     m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve))

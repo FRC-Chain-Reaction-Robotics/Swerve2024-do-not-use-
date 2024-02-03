@@ -10,13 +10,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-//import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.auto.DriveToDistance;
 import frc.robot.commands.auto.TurnToAngle;
 import frc.robot.commands.drive.DriveWithJoysticks;
 import frc.robot.subsystems.PneumaticsSubsystem;
 import frc.robot.subsystems.Swerve;
+import frc.robot.subsystems.Winch;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Intake;
 
 
 public class RobotContainer {
@@ -28,7 +32,12 @@ public class RobotContainer {
   private final PneumaticsSubsystem m_PneumaticsSubsystem = new PneumaticsSubsystem();
 
   private final CommandXboxController m_driverController = new CommandXboxController(Constants.Controllers.kDriverControllerPort);
-  //private final CommandXboxController m_operatorController = new CommandXboxController(Constants.Controllers.kOperatorControllerPort);
+  private final CommandXboxController m_operatorController = new CommandXboxController(Constants.Controllers.kOperatorControllerPort);
+
+  private Winch m_winch = new Winch();
+  private Shooter m_shooter = new Shooter();
+  private Arm m_arm = new Arm();
+  private Intake m_intake = new Intake();
 
   
   public RobotContainer() {
@@ -66,6 +75,11 @@ public class RobotContainer {
     // m_operatorController.a().onTrue(new MoveToGoal(m_arm, Row.BOTTOM))
     // .or(m_operatorController.b().onTrue(new MoveToGoal(m_arm, Row.MIDDLE)))
     // .or(m_operatorController.y().onTrue(new MoveToGoal(m_arm, Row.TOP)));
+
+    m_winch.setDefaultCommand(new RunCommand(() -> m_winch.winchExtend(m_operatorController)));
+    
+    //onTrue() can be changed to whileTrue() if we were to hold the button to shoot
+    m_operatorController.rightStick().onTrue(new InstantCommand(() -> m_shooter.cherryBomb()));
     
     //slow mode for right bumper, medium slow for left bumper
     m_driverController.rightBumper().onTrue(new InstantCommand(() -> m_swerve.slowMode(), m_swerve))

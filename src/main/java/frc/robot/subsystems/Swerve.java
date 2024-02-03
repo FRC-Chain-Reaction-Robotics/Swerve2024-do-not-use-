@@ -4,7 +4,16 @@
 // license file in the root directory of this project.
 
 package frc.robot.subsystems;
+<<<<<<< Updated upstream
 /* Github testing */
+=======
+
+/*import java.io.IOException;
+import java.util.Optional; 
+
+/*import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields; */
+>>>>>>> Stashed changes
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -51,7 +60,6 @@ public class Swerve extends SubsystemBase {
 
   // The gyro sensor
   private final NavX m_gyro = new NavX();
-
   // public PhotonCameraWrapper m_photonCamera;
 
   //Functions the same as SwerveDriveOdometry
@@ -63,7 +71,7 @@ public class Swerve extends SubsystemBase {
         m_frontLeft.getPosition(),
         m_frontRight.getPosition(),
         m_rearLeft.getPosition(),
-        m_rearRight.getPosition()}, 
+        m_rearRight.getPosition()},
       new Pose2d());
 
   private final Field2d m_fieldSim = new Field2d();
@@ -79,7 +87,7 @@ public class Swerve extends SubsystemBase {
   public SlewRateLimiter rotLimiter = new SlewRateLimiter(Constants.Swerve.kMaxAngularAccel);
 
   public Swerve() {
-    // m_photonCamera = new PhotonCameraWrapper(
+    //   m_photonCamera = new PhotonCameraWrapper(
     //   Constants.Vision.kCameraName,
     //   Constants.Vision.kRobotToCamera,
     //   PoseStrategy.CLOSEST_TO_REFERENCE_POSE,
@@ -118,7 +126,7 @@ public class Swerve extends SubsystemBase {
   
   }
    
-  //updates the pose periodically
+  //updates the pose periodically 
   public void updatePose() {
     m_poseEstimator.update(
       m_gyro.getRotation2d(), 
